@@ -5,7 +5,7 @@
   "main": "dist/index.js",
   "scripts": {
     "start": "ntsc && npm run copyhtml && concurrently \"npm run ntsc:w\" \"npm run copyhtml:w\"",
-    "build": "ntsc && npm run copyhtml",
+    "build": "ntsc",
     "postinstall": "typings install",
     "ntsc": "ntsc",
     "ntsc:w": "ntsc -w",
