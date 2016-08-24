@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/gislikonrad/Swangluar.git"
+    "url": "git+https://github.com/gislikonrad/swangular-components.git"
   },
   "keywords": [
     "swagger",
@@ -17,7 +17,7 @@
   "author": "Gísli Konráð Björnsson",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/gislikonrad/Swangluar/issues"
+    "url": "https://github.com/gislikonrad/swangular-components/issues"
   },
-  "homepage": "https://github.com/gislikonrad/Swangluar#readme"
+  "homepage": "https://github.com/gislikonrad/swangular-components#readme"
 }
