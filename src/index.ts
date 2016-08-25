@@ -1,1 +1,3 @@
-export const HelloWorld = 'hello npm and travis';
+import { HelloWorldClass } from'./HelloWorld/HelloWorld.class';
+
+export const HelloWorld = HelloWorldClass;

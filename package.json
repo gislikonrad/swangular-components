@@ -1,12 +1,13 @@
 {
   "name": "swangular-components",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Swagger UI components written in angular 2",
   "main": "dist/index.js",
   "scripts": {
     "start": "npm run ensureversion && ntsc && npm run copyhtml && concurrently \"npm run ntsc:w\" \"npm run copyhtml:w\"",
     "ensureversion": "node scripts/version.js",
-    "build": "ntsc",
+    "reportbuild": "node scripts/report-build.js",
+    "build": "ntsc && npm run reportbuild",
     "postinstall": "typings install",
     "ntsc": "ntsc",
     "ntsc:w": "ntsc -w",

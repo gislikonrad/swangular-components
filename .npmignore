@@ -1,7 +1,6 @@
 # Node generated files
 node_modules
 npm-debug.log
-
 # OS generated files
 Thumbs.db
 .DS_Store
@@ -9,3 +8,10 @@ Thumbs.db
 # Ignored files
 src
 scripts
+.travis.yml
+.gitattributes
+.npmignore
+.typingssrc
+README.md
+tslint.json
+typings.json
