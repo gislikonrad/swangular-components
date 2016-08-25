@@ -11,7 +11,7 @@ scripts
 .travis.yml
 .gitattributes
 .npmignore
-.typingssrc
+.typingsrc
 README.md
 tslint.json
-typings.json
+tsconfig
