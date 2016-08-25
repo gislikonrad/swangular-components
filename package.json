@@ -1,6 +1,6 @@
 {
   "name": "swangular-components",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Swagger UI components written in angular 2",
   "main": "dist/index.js",
   "scripts": {
