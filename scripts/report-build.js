@@ -26,7 +26,7 @@ var walk = function(dir, done) {
   });
 };
 
-var directory = path.join(__dirname, '../dist');
+var directory = path.join(__dirname, '../lib');
 walk(directory, function(err, results) {
   if(err) {
     console.error(err);
