@@ -1,6 +1,5 @@
-# swangular-components
+# swangular-components ![alt text](https://api.travis-ci.org/gislikonrad/swangular-components.svg "build status")
 swangular-components is a component library for angular 2.0.0-rc.5 to render swagger 2.0 documentation.
-![alt text](https://api.travis-ci.org/gislikonrad/swangular-components.svg "build status")
 
 ## TODO
 - [x] Create CI pipeline using Travis CI
