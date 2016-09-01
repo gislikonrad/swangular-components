@@ -9,12 +9,12 @@
     "removeComments": false,
     "noImplicitAny": true,
     "suppressImplicitAnyIndexErrors": true,
-    "outDir": "./lib",
-	  "rootDir": "./src"
+    "declaration": true,
+    "diagnostics": true,
+    "listFiles": true
   },
   "exclude": [
     "node_modules",
-    "typings/main",
-    "typings/main.d.ts"
+    "typings"
   ]
 }

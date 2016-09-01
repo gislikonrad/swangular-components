@@ -15,3 +15,4 @@ scripts
 .typingsrc
 tslint.json
 tsconfig
+./index.ts

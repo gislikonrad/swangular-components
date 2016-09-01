@@ -7,5 +7,10 @@ Thumbs.db
 .DS_Store
 
 # ignored
-lib/**/*.*
+lib
 typings
+
+*.js
+*.js.map
+*.d.ts
+!.scripts/*.js
