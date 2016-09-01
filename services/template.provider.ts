@@ -6,7 +6,7 @@ export class TemplateProvider {
       <div *ngFor="let pair of swagger.paths | keyValuePairs">
         <h3>{{pair.key}}</h3>
         <api-method *ngFor="let path of pair.value | keyValuePairs"
-          path="{{path.value}}"
+          operation="{{path.value}}"
           verb="{{path.key}}"
           urlTemplate="{{pair.key}}"></api-method>
       </div>
@@ -36,6 +36,6 @@ export class TemplateProvider {
   `;
 
   static apiMethodResponses: string = `
-    
+
   `;
 }

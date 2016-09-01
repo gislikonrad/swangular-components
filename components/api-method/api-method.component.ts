@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { TemplateProvider } from '../../services/template.provider';
-import { Path } from '../../schema/2.0/swagger.schema';
+import { Operation } from '../../schema/2.0/swagger.schema';
 
 @Component({
   selector: 'api-method',
@@ -9,7 +9,7 @@ import { Path } from '../../schema/2.0/swagger.schema';
 })
 
 export class ApiMethodComponent {
-  @Input() path: Path;
+  @Input() operation: Operation;
   @Input() verb: string;
   @Input() urlTemplate: string;
 }
