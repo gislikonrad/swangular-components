@@ -7,6 +7,7 @@ export class Swagger {
   consumes: string[];
   produces: string[];
   paths: { [id: string] : Path };
+  definitions: { [id: string]: Schema };
 }
 
 export class Info {
@@ -90,7 +91,10 @@ export class ExternalDocumentation {
 }
 
 export class Schema {
-
+  $ref: string;
+  format: Format;
+  type: Type;
+  properties: { [id: string]: Schema }
 }
 
 export class Item {
@@ -103,4 +107,29 @@ export enum In {
   path,
   formData,
   body
+}
+
+export type Type = 'object'|'string'|'integer'|'number'|'boolean';
+export type Format = 'int32'|'int64'|'float'|'double'|'string'|'byte'|'binary'|'boolean'|'date'|'date-time'|'password';
+
+export class Types {
+  static object: Type = 'object';
+  static string: Type = 'string';
+  static number: Type = 'number';
+  static integer: Type = 'integer';
+  static boolean: Type = 'boolean';
+}
+
+export class DataTypes {
+  static int32: Format = 'int32';
+  static int64: Format = 'int64';
+  static float: Format = 'float';
+  static double: Format = 'double';
+  static string: Format = 'string';
+  static byte: Format = 'byte';
+  static binary: Format = 'binary';
+  static boolean: Format = 'boolean';
+  static date: Format = 'date';
+  static dateTime: Format = 'date-time';
+  static password: Format = 'password';
 }

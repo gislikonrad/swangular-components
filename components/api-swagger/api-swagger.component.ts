@@ -7,7 +7,8 @@ import { Swagger } from '../../schema/2.0/swagger.schema';
 @Component({
   selector: 'api-swagger',
   template: TemplateProvider.apiSwagger,
-  directives: [ ApiMethodComponent ]
+  directives: [ ApiMethodComponent ],
+  providers: [ SwaggerService ]
 })
 
 export class ApiSwaggerComponent implements OnInit {

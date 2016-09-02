@@ -1,6 +1,6 @@
 export class TemplateProvider {
   static apiSwagger: string = `
-    <div class="container" *ngIf="swagger">
+    <div *ngIf="swagger">
       <h2>{{swagger.info.title}} <small>on https://{{swagger.host + swagger.basePath}}</small></h2>
       <p>{{swagger.info.description}}</p>
       <div *ngFor="let pair of swagger.paths | keyValuePairs">
@@ -10,22 +10,28 @@ export class TemplateProvider {
           [verb]="path.key"
           [urlTemplate]="pair.key"></api-method>
       </div>
-      <pre>{{swaggerJson}}</pre>
     </div>
   `;
 
   static apiMethod: string = `
-    <div class="panel" [class.panel-default]="verb == 'get'" [class.panel-success]="verb == 'post'">
+    <div class="panel"
+        [class.panel-info]="verb == 'get'"
+        [class.panel-success]="verb == 'post'"
+        [class.panel-warning]="verb == 'put' || verb == 'patch'"
+        [class.panel-danger]="verb == 'delete'">
       <div class="panel-heading" (click)="expanded = !expanded">
         <h3 class="panel-title">
           <span class="label" [class.label-default]="verb == 'get'" [class.label-success]="verb == 'post'">{{verb}}</span> {{urlTemplate}}
-          <span class="pull-right">{{operation.description}}</span>
+          <span class="pull-right">{{operation.summary}}</span>
         </h3>
       </div>
       <div class="panel-body" *ngIf="expanded">
         <div class="row">
           <div class="col-md-10">
-            <p *ngIf="operation.summary">{{operation.summary}}</p>
+            <div *ngIf="operation.summary">
+              <h4>Implementation notes</h4>
+              <p [innerHtml]="operation.description"></p>
+            </div>
           </div>
           <div class="col-md-2">
             Security will be here
@@ -50,8 +56,8 @@ export class TemplateProvider {
         </thead>
         <tbody>
           <tr *ngFor="let pair of responses | keyValuePairs"
-              [class.success]="(+pair.key) < 300 && (+pair.key) >= 200"
-              [class.info]="(+pair.key) < 400 && (+pair.key) >= 300"
+              [class.info]="(+pair.key) < 300 && (+pair.key) >= 200"
+              [class.success]="(+pair.key) < 400 && (+pair.key) >= 300"
               [class.warning]="(+pair.key) < 500 && (+pair.key) >= 400"
               [class.danger]="(+pair.key) >= 500">
             <td>{{pair.key}}</td>
@@ -66,8 +72,10 @@ export class TemplateProvider {
 
   static apiModel: string = `
     <div>
-      Model | Example
-      {{schema | json}}
+      <button type="button" class="btn btn-default btn-xs" (click)="modelSchema=false" [class.active]="!modelSchema">Model</button>
+      <button type="button" class="btn btn-default btn-xs" (click)="modelSchema=true" [class.active]="modelSchema">Model Schema</button>
     </div>
+    <pre *ngIf="modelSchema">{{ displayModelSchema(schema) }}</pre>
+    <pre *ngIf="!modelSchema">{{ generateModel(schema) }}</pre>
   `;
 }
