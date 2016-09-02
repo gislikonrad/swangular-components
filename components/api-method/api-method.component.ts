@@ -5,7 +5,10 @@ import { Operation } from '../../schema/2.0/swagger.schema';
 @Component({
   selector: 'api-method',
   template: TemplateProvider.apiMethod,
-  styles: [ 'h3 .label { padding-top: 0.4em; text-transform: uppercase; }']
+  styles: [
+    'h3 .label { padding-top: 0.4em; text-transform: uppercase; }',
+    '.panel-heading { cursor: pointer; }'
+  ]
 })
 
 export class ApiMethodComponent {
