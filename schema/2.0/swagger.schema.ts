@@ -74,7 +74,7 @@ export class Reference {
 export class Response {
   description: string;
   schema: string;
-  headers: { [id: string] : Response };
+  headers: { [id: string] : Header };
 }
 
 export class Header {
@@ -92,8 +92,11 @@ export class ExternalDocumentation {
 
 export class Schema {
   $ref: string;
+  title: string;
   format: Format;
   type: Type;
+  items: Schema;
+  required: string[];
   properties: { [id: string]: Schema }
 }
 
@@ -109,11 +112,12 @@ export enum In {
   body
 }
 
-export type Type = 'object'|'string'|'integer'|'number'|'boolean';
+export type Type = 'object'|'string'|'integer'|'number'|'boolean'|'array';
 export type Format = 'int32'|'int64'|'float'|'double'|'string'|'byte'|'binary'|'boolean'|'date'|'date-time'|'password';
 
 export class Types {
   static object: Type = 'object';
+  static array: Type = 'array';
   static string: Type = 'string';
   static number: Type = 'number';
   static integer: Type = 'integer';

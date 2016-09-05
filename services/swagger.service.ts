@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Swagger } from '../schema/2.0/swagger.schema';
 import { Http, Headers } from '@angular/http';
+import { ErrorService } from './error.service';
 import { NextObserver } from 'rxjs/Observer';
 import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
@@ -11,7 +12,7 @@ export class SwaggerService {
   private _current$: BehaviorSubject<Swagger>;
   current: Observable<Swagger>;
 
-  constructor(private _http: Http) {
+  constructor(private _http: Http, private _errorService: ErrorService) {
     this._current$ = <BehaviorSubject<Swagger>>new BehaviorSubject(null);
     this.current = this._current$.asObservable();
   }
@@ -28,7 +29,17 @@ export class SwaggerService {
         this._current$.next(current);
         return current;
       })
-      .catch(this.handleError);
+      .catch(error => {
+        let message = `Could not get swagger from "${url}"`;
+        console.error('An error occurred', message);
+        this._errorService.setError(message);
+        return Promise.resolve(null);
+      });
+  }
+
+  private poop() {
+    console.log(arguments);
+    return Promise.resolve(null);
   }
 
   private generateHeaders(): Headers {
@@ -37,10 +48,5 @@ export class SwaggerService {
     };
     let headers = new Headers(map);
     return headers;
-  }
-
-  private handleError(error: any) {
-    console.error('An error occurred', error);
-    return Promise.reject(error.message || error);
   }
 }

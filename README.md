@@ -60,9 +60,14 @@ npm install swangular-components --save
 
 ## Components
 
+### error-panel
+error-panel is an optional component that can show errors
+```html
+<error-panel></error-panel>
+```
+
 ### api-swagger
 api-swagger is the root of the tree. If you use this element, it basically injects a whole swagger page.
-
 ```html
 <api-swagger url="http://a-valid-swagger/endpoint"></api-swagger>
 ```
@@ -70,5 +75,21 @@ api-swagger is the root of the tree. If you use this element, it basically injec
 ### api-method
 api-method is for showing what a url-verb combo does, i.e GET - /values
 ```html
-<api-method operation="{{operationObject}}" verb="get" urlTemplate="/values/{id}"></api-swagger>
+<api-method operation="{{operationObject}}" verb="get" urlTemplate="/values/{id}"></api-method>
 ```
+
+### api-model
+api-model is for showing the schema and example of a request or response model
+```html
+<api-model schema="{{schemaObject}}"></api-swagger>
+```
+
+## Providers
+
+There are a couple of injectable providers that can be used.
+
+### SwaggerService
+SwaggerService should be used to make a request to a swagger 2.0 endpoint.
+
+### ErrorService
+Any errors reported into this service get put into the error panel.

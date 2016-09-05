@@ -1,7 +1,7 @@
 import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { SwaggerService } from '../../services/swagger.service';
 import { TemplateProvider } from '../../services/template.provider';
-import { Swagger, Schema, Types } from '../../schema/2.0/swagger.schema';
+import { Swagger, Schema, Types, Type } from '../../schema/2.0/swagger.schema';
 
 @Component({
   selector: 'api-model',
@@ -13,57 +13,123 @@ export class ApiModelComponent implements OnInit, OnDestroy {
 
   private _definitions: { [id: string]: Schema }
   private _sub: any;
+  refs: string[];
+  showModelSchema: boolean = false;
+
 
   constructor(private _swaggerService: SwaggerService) {
 
   }
 
-  displayModelSchema(schema: Schema): string {
-    if(!schema) {
-      return '';
-    }
-    if(schema.$ref) {
-      let s = this.getSchemaDefinition(schema.$ref);
-      return this.displayModelSchema(s);
-    }
-    if(schema.type != Types.object) {
-      return schema.type.toString();
-    }
-    let display: any = {};
-    for(let name in schema.properties) {
-      let type = schema.properties[name].type;
-      if(type == Types.object) {
-        display[name] = {};
-      }
-      else {
-        display[name] = type;
-      }
-    }
-    return JSON.stringify(display, null, 2);
-  }
-
-  generateModel(schema: Schema): string {
-    return 'example';
-  }
-
-  isReady(): boolean {
-    return this._definitions != null;
+  displayModelExample(schema: Schema): string {
+    let model = this.generateDisplayObject(schema);
+    return JSON.stringify(model, null, 2);
   }
 
   ngOnInit() {
-    this._sub = this._swaggerService.current.subscribe(swagger => this._definitions = swagger.definitions);
+    this._sub = this._swaggerService.current.subscribe(swagger => {
+      this._definitions = swagger.definitions;
+      this.refs = this.getSchemaRefs(this.schema);
+    });
   }
 
   ngOnDestroy() {
     this._sub.unsubscribe();
   }
 
-  private getSchemaDefinition($ref: string): Schema {
+  getSchema($ref: string): Schema {
+    let name = this.getSchemaDefinitionName($ref);
+    return this._definitions[name];
+  }
+
+  getSchemaAndName($ref: string): any {
+    let name = this.getSchemaDefinitionName($ref);
+    return {
+      name: name,
+      schema: this._definitions[name]
+    };
+  }
+
+  getSchemaDefinitionName($ref: string): string {
     if(!$ref) {
       return null;
     }
     let split = $ref.split('/');
     let name = split[split.length - 1];
-    return this._definitions[name];
+    return name;
+  }
+
+  isRequired(schema: Schema, name: string): boolean {
+    if(!schema.required) {
+      return false;
+    }
+    return schema.required.indexOf(name) > -1;
+  }
+
+  private getSchemaRefs(schema: Schema, refs?: string[]): string[] {
+    if(!refs) {
+      refs = [];
+    }
+    if(schema.$ref && refs.indexOf(schema.$ref) == -1) {
+      refs.push(schema.$ref);
+      let name = this.getSchemaDefinitionName(schema.$ref);
+      schema = this._definitions[name];
+    }
+    if(schema.properties) {
+      for(let key in schema.properties) {
+        let s = schema.properties[key];
+        this.getSchemaRefs(s, refs);
+      }
+    }
+    return refs;
+  }
+
+  private generateDisplayObject(schema: Schema): any {
+    let $ref: string;
+    if(!schema) {
+      return '';
+    }
+    if(schema.$ref) {
+      $ref = schema.$ref;
+      let name = this.getSchemaDefinitionName(schema.$ref);
+      schema = this._definitions[name];
+    }
+    if(schema.type == Types.array) {
+      if(schema.items) {
+        return [this.generateDisplayObject(schema.items)];
+      }
+      else {
+        return [];
+      }
+    }
+    if(schema.type != Types.object) {
+      return this.getDefaultValue(schema).toString();
+    }
+    let model: any = {};
+    for(let name in schema.properties) {
+      let property = schema.properties[name];
+      if(property.$ref && property.$ref == $ref) {
+        model[name] = {};
+      }
+      else {
+        model[name] = this.getDefaultValue(property);
+      }
+    }
+    return model;
+  }
+
+  private getDefaultValue(schema: Schema): any {
+    if(schema.$ref) {
+      return this.generateDisplayObject(schema);
+    }
+
+    switch(schema.type){
+      case Types.number:
+      case Types.integer: return 0;
+
+      case Types.boolean: return false;
+
+      case Types.string: return 'string';
+    }
   }
 }
