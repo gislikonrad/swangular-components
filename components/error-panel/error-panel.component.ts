@@ -4,7 +4,17 @@ import { TemplateProvider } from '../../services/template.provider';
 
 @Component({
   selector: 'error-panel',
-  template: TemplateProvider.errorPanel
+  template: TemplateProvider.getTemplate('error-panel') || `
+    <div class="alert alert-danger" role="alert" *ngIf="errors.length > 0">
+      <button type="button" class="close" aria-label="Close" (click)="clearErrors()"><span aria-hidden="true">&times;</span></button>
+      <strong *ngIf="errors.length == 1">An error has occurred</strong>
+      <strong *ngIf="errors.length > 1">Errors have occurred</strong>
+      <p *ngIf="errors.length == 1">{{errors[0]}}</p>
+      <ul *ngIf="errors.length > 1">
+        <li *ngFor="let error of errors">{{error}}</li>
+      </ul>
+    </div>
+  `
 })
 
 export class ErrorPanelComponent implements OnInit, OnDestroy {

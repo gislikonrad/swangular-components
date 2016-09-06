@@ -6,7 +6,19 @@ import { Swagger } from '../../schema/2.0/swagger.schema';
 
 @Component({
   selector: 'api-swagger',
-  template: TemplateProvider.apiSwagger,
+  template: TemplateProvider.getTemplate('api-swagger') || `
+    <div *ngIf="swagger">
+      <h2>{{swagger.info.title}} <small>on https://{{swagger.host + (swagger.basePath || '')}}</small></h2>
+      <p>{{swagger.info.description}}</p>
+      <div *ngFor="let pair of swagger.paths | keyValuePairs">
+        <h3>{{pair.key}}</h3>
+        <api-method *ngFor="let path of pair.value | keyValuePairs"
+          [operation]="path.value"
+          [verb]="path.key"
+          [urlTemplate]="pair.key"></api-method>
+      </div>
+    </div>
+  `,
   directives: [ ApiMethodComponent ],
   providers: [ SwaggerService ]
 })

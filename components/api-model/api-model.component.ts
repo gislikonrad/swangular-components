@@ -5,7 +5,27 @@ import { Swagger, Schema, Types, Type } from '../../schema/2.0/swagger.schema';
 
 @Component({
   selector: 'api-model',
-  template: TemplateProvider.apiModel
+  template: TemplateProvider.getTemplate('api-model') || `
+    <div class="btn-group">
+      <button type="button" class="btn btn-default btn-xs" (click)="showModelSchema=false" [class.active]="!showModelSchema">Model</button>
+      <button type="button" class="btn btn-default btn-xs" (click)="showModelSchema=true" [class.active]="showModelSchema">Model Schema</button>
+    </div>
+    <pre *ngIf="!showModelSchema">{{ displayModelExample(schema) }}</pre>
+    <div *ngIf="showModelSchema">
+      <p *ngFor="let ref of refs" #s="var" [var]="getSchemaAndName(ref)" >
+        <small>
+          <strong>{{s.var.name}} {{ '{' }}</strong><br />
+            <span *ngFor="let p of (s.var.schema.properties || {}) | keyValuePairs">
+              <span>
+              &nbsp;&nbsp;
+              <strong>{{p.key}}</strong>
+              (<span *ngIf="p.value.type">{{p.value.type}}</span><span *ngIf="p.value.$ref">{{getSchemaDefinitionName(p.value.$ref)}}</span><span *ngIf="!isRequired(s.var.schema, p.key)">, optional</span>)</span><br />
+            </span>
+          <strong>{{ '}' }}</strong>
+        </small>
+      </p>
+    </div>
+  `
 })
 
 export class ApiModelComponent implements OnInit, OnDestroy {
