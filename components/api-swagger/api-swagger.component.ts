@@ -11,18 +11,18 @@ import { Swagger } from '../../schema/2.0/swagger.schema';
   providers: [ SwaggerService ]
 })
 
-export class ApiSwaggerComponent implements OnInit {
-  @Input() url: string;
+export class ApiSwaggerComponent {
+  @Input() set url(value: string) {
+    if(value) {
+      this._swaggerService.getSwagger(value).then(swagger => this.swagger = swagger);
+    }
+  }
   @Input() apiKey: string;
 
   swagger: Swagger;
 
   constructor(private _swaggerService: SwaggerService) {
 
-  }
-
-  ngOnInit() {
-    this._swaggerService.getSwagger(this.url).then(swagger => this.swagger = swagger);
   }
 
   get swaggerJson(): string {

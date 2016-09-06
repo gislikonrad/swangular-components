@@ -10,7 +10,6 @@ export class TemplateProvider {
           [verb]="path.key"
           [urlTemplate]="pair.key"></api-method>
       </div>
-      <pre>{{swaggerJson}}</pre>
     </div>
   `;
 
