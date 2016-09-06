@@ -17,6 +17,7 @@ import { Swagger } from '../../schema/2.0/swagger.schema';
           [verb]="path.key"
           [urlTemplate]="pair.key"></api-method>
       </div>
+      <pre>{{ swaggerJson }}</pre>
     </div>
   `,
   directives: [ ApiMethodComponent ],
@@ -25,15 +26,16 @@ import { Swagger } from '../../schema/2.0/swagger.schema';
 
 export class ApiSwaggerComponent {
   @Input() set url(value: string) {
+    this.swagger = null;
     if(value) {
       this._swaggerService.getSwagger(value).then(swagger => this.swagger = swagger);
     }
   }
-  @Input() apiKey: string;
 
   swagger: Swagger;
 
-  constructor(private _swaggerService: SwaggerService) {
+  constructor(
+    private _swaggerService: SwaggerService) {
 
   }
 

@@ -31,15 +31,10 @@ export class SwaggerService {
       })
       .catch(error => {
         let message = `Could not get swagger from "${url}"`;
-        console.error('An error occurred', message);
+        console.warn('An error occurred', message);
         this._errorService.setError(message);
         return Promise.resolve(null);
       });
-  }
-
-  private poop() {
-    console.log(arguments);
-    return Promise.resolve(null);
   }
 
   private generateHeaders(): Headers {
