@@ -80,10 +80,12 @@ export class ApiMethodFormComponent implements OnInit {
 
   ngOnInit() {
     let definition: { [key: string]: any } = {};
-    for(let parameter of this.parameters) {
-      definition[parameter.name] = [''];
-      if(parameter.required) {
-        definition[parameter.name].push(Validators.required);
+    if(this.parameters) {
+      for(let parameter of this.parameters) {
+        definition[parameter.name] = [''];
+        if(parameter.required) {
+          definition[parameter.name].push(Validators.required);
+        }
       }
     }
     this.requestForm = this._formBuilder.group(definition);
