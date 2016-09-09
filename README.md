@@ -5,7 +5,7 @@ swangular-components is a component library for angular 2.0.0-rc.5 to render swa
 - [x] Create CI pipeline using Travis CI
 - [x] Create base module
 - [x] Fix for npm link
-- [ ] Add Output to api-swagger for debug purposes on swagger updates
+- [x] Add Output to api-swagger for debug purposes on swagger updates
 - [ ] Add more validation than just required
 - [ ] Finish request builder
 - [ ] Add support for security property in swagger 2.0
