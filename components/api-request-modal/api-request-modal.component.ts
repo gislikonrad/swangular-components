@@ -9,14 +9,18 @@ import { Request, Response, RequestMethod } from '@angular/http';
   <div class="modal" id="myModal" tabindex="-1" [style.display]="'block'" *ngIf="request">
     <div class="modal-dialog modal-lg" role="document">
       <div class="modal-content">
-        <div class="modal-header">
+        <div class="modal-header"
+             [class.bg-info]="request.method == 0"
+             [class.bg-success]="request.method == 1"
+             [class.bg-warning]="request.method == 2 || request.method == 6"
+             [class.bg-danger]="request.method == 3">
           <button type="button" class="close" (click)="close()"><span aria-hidden="true">&times;</span></button>
-          <h4 class="modal-title">Performing request <small>{{request.url}}</small></h4>
+          <h4 class="modal-title">Performing request  <http-method-label [method]="request.method"></http-method-label><small>{{request.url}}</small></h4>
         </div>
         <div class="modal-body">
           <div class="row">
             <div class="col-md-6">
-              <h3>Request <http-method-label [method]="request.method"></http-method-label></h3>
+              <h3>Request</h3>
               <h4>Headers</h4>
               <table class="table table-condensed">
                 <thead>
