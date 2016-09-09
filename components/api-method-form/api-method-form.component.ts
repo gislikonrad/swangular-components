@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ErrorService } from '../../services/error.service';
 import { RequestBuilder } from '../../services/request.builder';
+import { HttpService } from '../../services/http.service';
 import { TemplateProvider } from '../../services/template.provider';
 import { Http, Headers } from '@angular/http';
 import { Validators } from '@angular/common';
@@ -51,7 +52,8 @@ import { Parameter, Type, Types } from '../../schema/2.0/swagger.schema';
           </tbody>
         </table>
       </div>
-      <button type="submit" class="btn btn-primary" [disabled]="requestForm.invalid || true">Try it out! (not working atm)</button>
+      <button type="submit" class="btn btn-primary" [disabled]="requestForm.invalid">Try it out!</button>
+      {{request | json}}
     </form>
   `,
   styles: [
@@ -62,7 +64,7 @@ import { Parameter, Type, Types } from '../../schema/2.0/swagger.schema';
 
 export class ApiMethodFormComponent implements OnInit {
   @Input() parameters: Parameter[];
-  @Input() verb: string;
+  @Input() method: string;
   @Input() urlTemplate: string;
   @Input() consumes: string[] = [];
 
@@ -73,6 +75,7 @@ export class ApiMethodFormComponent implements OnInit {
   constructor(
     private _http: Http,
     private _requestBuilder: RequestBuilder,
+    private _httpService: HttpService,
     private _formBuilder: FormBuilder,
     private _errorService: ErrorService) {
 
@@ -115,5 +118,7 @@ export class ApiMethodFormComponent implements OnInit {
       }
       return;
     }
+    let request = this._requestBuilder.generateRequest(this.urlTemplate, this.method, this.requestForm.value, this.parameters);
+    this._httpService.dispatch(request);
   }
 }

@@ -47,7 +47,7 @@ export class ApiModelComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this._sub = this._swaggerService.current.subscribe(swagger => {
+    this._sub = this._swaggerService.subscription.subscribe(swagger => {
       this._definitions = swagger.definitions;
       if(this.schema) {
         this.refs = this.getSchemaRefs(this.schema);

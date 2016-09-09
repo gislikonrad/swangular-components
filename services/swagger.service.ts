@@ -9,12 +9,16 @@ import 'rxjs/add/operator/toPromise';
 
 @Injectable()
 export class SwaggerService {
-  private _current$: BehaviorSubject<Swagger>;
-  current: Observable<Swagger>;
+  private _subject$: BehaviorSubject<Swagger>;
+  subscription: Observable<Swagger>;
+
+  get latest(): Swagger {
+    return this._subject$.getValue();
+  }
 
   constructor(private _http: Http, private _errorService: ErrorService) {
-    this._current$ = <BehaviorSubject<Swagger>>new BehaviorSubject(null);
-    this.current = this._current$.asObservable();
+    this._subject$ = <BehaviorSubject<Swagger>>new BehaviorSubject(null);
+    this.subscription = this._subject$.asObservable();
   }
 
   getSwagger(url: string): Promise<Swagger> {
@@ -26,7 +30,7 @@ export class SwaggerService {
     return promise
       .then(response => {
         let current = response.json();
-        this._current$.next(current);
+        this._subject$.next(current);
         return current;
       })
       .catch(error => {

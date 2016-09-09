@@ -15,6 +15,12 @@ import { ApiMethodFormComponent } from './components/api-method-form/api-method-
 export { ApiMethodFormComponent } from './components/api-method-form/api-method-form.component';
 import { ErrorPanelComponent } from './components/error-panel/error-panel.component';
 export { ErrorPanelComponent } from './components/error-panel/error-panel.component';
+import { ApiRequestModalComponent } from './components/api-request-modal/api-request-modal.component';
+export { ApiRequestModalComponent } from './components/api-request-modal/api-request-modal.component';
+import { HttpMethodLabelComponent } from './components/http-method-label/http-method-label.component';
+export { HttpMethodLabelComponent } from './components/http-method-label/http-method-label.component';
+import { HttpStatusLabelComponent } from './components/http-status-label/http-status-label.component';
+export { HttpStatusLabelComponent } from './components/http-status-label/http-status-label.component';
 
 import { SwaggerService } from './services/swagger.service';
 export { SwaggerService } from './services/swagger.service';
@@ -23,6 +29,7 @@ export { ErrorService } from './services/error.service';
 import { ApiKeyProvider, ApiKeyLocation } from './services/api-key.provider';
 export { ApiKeyProvider, ApiKeyLocation } from './services/api-key.provider';
 import { RequestBuilder } from './services/request.builder';
+import { HttpService } from './services/http.service';
 
 import { KeyValuePairsPipe } from './pipes/key-value-pairs.pipe';
 export { KeyValuePairsPipe } from './pipes/key-value-pairs.pipe';
@@ -39,14 +46,18 @@ export const SWANGULAR_COMPONENTS: any[] = [
   ApiMethodResponsesComponent,
   ApiModelComponent,
   ErrorPanelComponent,
-  ApiMethodFormComponent
+  ApiMethodFormComponent,
+  ApiRequestModalComponent,
+  HttpMethodLabelComponent,
+  HttpStatusLabelComponent
 ];
 
 export const SWANGULAR_PROVIDERS: any[] = [
   SwaggerService,
   ErrorService,
   RequestBuilder,
-  ApiKeyProvider
+  ApiKeyProvider,
+  HttpService
 ];
 @NgModule({
     declarations: [

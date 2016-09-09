@@ -10,7 +10,14 @@ export class KeyValuePairsPipe implements PipeTransform {
       return [];
     }
 
-    return Object.keys(value).map(key => new KeyValuePair(key, value[key]))
+    let array: KeyValuePair[] = [];
+    for(let key in value) {
+      if(value.hasOwnProperty(key)) {
+        array.push(new KeyValuePair(key, value[key]));
+      }
+    }
+
+    return array;
   }
 }
 

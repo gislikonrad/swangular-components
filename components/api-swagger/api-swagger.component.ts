@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { ApiMethodComponent } from '../api-method/api-method.component';
 import { SwaggerService } from '../../services/swagger.service';
 import { TemplateProvider } from '../../services/template.provider';
@@ -14,9 +14,10 @@ import { Swagger } from '../../schema/2.0/swagger.schema';
         <h3>{{pair.key}}</h3>
         <api-method *ngFor="let path of pair.value | keyValuePairs"
           [operation]="path.value"
-          [verb]="path.key"
+          [method]="path.key"
           [urlTemplate]="pair.key"></api-method>
       </div>
+      <api-request-modal></api-request-modal>
     </div>
   `,
   directives: [ ApiMethodComponent ],
@@ -24,10 +25,15 @@ import { Swagger } from '../../schema/2.0/swagger.schema';
 })
 
 export class ApiSwaggerComponent {
+  @Output() update = new EventEmitter();
+
   @Input() set url(value: string) {
     this.swagger = null;
     if(value) {
-      this._swaggerService.getSwagger(value).then(swagger => this.swagger = swagger);
+      this._swaggerService.getSwagger(value).then(swagger => {
+        this.swagger = swagger;
+        this.update.emit(swagger);
+      });
     }
   }
 

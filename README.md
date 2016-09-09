@@ -9,6 +9,7 @@ swangular-components is a component library for angular 2.0.0-rc.5 to render swa
 - [ ] Add more validation than just required
 - [ ] Finish request builder
 - [ ] Add support for security property in swagger 2.0
+- [ ] Make scheme selectable for the request if there are more than one
 
 ## Usage
 ```

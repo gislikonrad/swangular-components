@@ -7,17 +7,13 @@ import { Operation, Response } from '../../schema/2.0/swagger.schema';
   selector: 'api-method',
   template: TemplateProvider.getTemplate('api-method') || `
     <div class="panel"
-        [class.panel-info]="verb == 'get'"
-        [class.panel-success]="verb == 'post'"
-        [class.panel-warning]="verb == 'put' || verb == 'patch'"
-        [class.panel-danger]="verb == 'delete'">
+        [class.panel-info]="method == 'get'"
+        [class.panel-success]="method == 'post'"
+        [class.panel-warning]="method == 'put' || method == 'patch'"
+        [class.panel-danger]="method == 'delete'">
       <div class="panel-heading" (click)="expanded = !expanded">
         <h3 class="panel-title">
-          <span class="label text-uppercase"
-               [class.label-info]="verb == 'get'"
-               [class.label-success]="verb == 'post'"
-               [class.label-warning]="verb == 'put' || verb == 'patch'"
-               [class.label-danger]="verb == 'delete'">{{verb}}</span> {{urlTemplate}}
+          <http-method-label [method]="method"></http-method-label> {{urlTemplate}}
           <span class="pull-right">{{operation.summary}}</span>
         </h3>
       </div>
@@ -51,7 +47,7 @@ import { Operation, Response } from '../../schema/2.0/swagger.schema';
       <ul class="list-group" *ngIf="expanded">
         <li class="list-group-item">
           <api-method-form [parameters]="operation.parameters"
-                           [verb]="verb"
+                           [method]="method"
                            [urlTemplate]="urlTemplate"
                            [consumes]="operation.consumes"></api-method-form>
         </li>
@@ -62,7 +58,6 @@ import { Operation, Response } from '../../schema/2.0/swagger.schema';
     </div>
   `,
   styles: [
-    'h3 .label { padding-top: 0.4em; }',
     '.panel-heading { cursor: pointer; }',
     '.panel-info .panel-body, .panel-info .list-group-item { background-color: #f3ffff }',
     '.panel-success .panel-body, .panel-success .list-group-item { background-color: #f8fff1 }',
@@ -74,7 +69,7 @@ import { Operation, Response } from '../../schema/2.0/swagger.schema';
 
 export class ApiMethodComponent implements OnInit {
   @Input() operation: Operation;
-  @Input() verb: string;
+  @Input() method: string;
   @Input() urlTemplate: string;
 
   defaultResponseCode: string;

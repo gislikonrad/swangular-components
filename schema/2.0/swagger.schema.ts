@@ -104,16 +104,17 @@ export class Item {
 
 }
 
-export enum In {
-  query,
-  header,
-  path,
-  formData,
-  body
-}
-
+export type In = 'query'|'header'|'path'|'formData'|'body';
 export type Type = 'object'|'string'|'integer'|'number'|'boolean'|'array';
 export type Format = 'int32'|'int64'|'float'|'double'|'string'|'byte'|'binary'|'boolean'|'date'|'date-time'|'password';
+
+export class InLocations {
+  static query: In = 'query';
+  static header: In = 'header';
+  static path: In = 'path';
+  static formData: In = 'formData';
+  static body: In = 'body';
+}
 
 export class Types {
   static object: Type = 'object';
