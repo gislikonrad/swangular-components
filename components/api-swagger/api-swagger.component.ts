@@ -1,5 +1,6 @@
 import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { ApiMethodComponent } from '../api-method/api-method.component';
+import { AuthService } from '../../services/auth.service';
 import { SwaggerService } from '../../services/swagger.service';
 import { TemplateProvider } from '../../services/template.provider';
 import { Swagger } from '../../schema/2.0/swagger.schema';
@@ -25,14 +26,14 @@ import { Swagger } from '../../schema/2.0/swagger.schema';
 })
 
 export class ApiSwaggerComponent {
-  @Output() update = new EventEmitter();
+  @Output() onUpdate = new EventEmitter();
 
   @Input() set url(value: string) {
     this.swagger = null;
     if(value) {
       this._swaggerService.getSwagger(value).then(swagger => {
         this.swagger = swagger;
-        this.update.emit(swagger);
+        this.onUpdate.emit(swagger);
       });
     }
   }
@@ -40,7 +41,8 @@ export class ApiSwaggerComponent {
   swagger: Swagger;
 
   constructor(
-    private _swaggerService: SwaggerService) {
+    private _swaggerService: SwaggerService,
+    private _authService: AuthService) {
     }
 
   get swaggerJson(): string {

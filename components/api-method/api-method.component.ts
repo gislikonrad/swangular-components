@@ -28,19 +28,19 @@ import { Operation, Response } from '../../schema/2.0/swagger.schema';
               <div class="col-md-6">
                 <h4>Response class <small>Status {{defaultResponseCode}} ({{defaultResponse.description}})</small></h4>
                 <api-model [schema]="defaultResponse.schema"></api-model>
-                <form>
+                <!--<form>
                   <div class="form-group">
                     <label for="responseContentTypeSelect">Response content type</label>
                     <select class="form-control" id="responseContentTypeSelect" [(ngModel)]="responseContentType" #responseContentTypeSelect="ngModel" name="responseContentTypeSelect">
                       <option *ngFor="let mimeType of operation.produces" [value]="mimeType">{{mimeType}}</option>
                     </select>
                   </div>
-                </form>
+                </form>-->
               </div>
             </div>
           </div>
           <div class="col-md-2">
-            <!-- Security will be here -->
+            <auth-button [security]="operation.security"></auth-button>
           </div>
         </div>
       </div>

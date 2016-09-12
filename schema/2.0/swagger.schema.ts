@@ -8,6 +8,7 @@ export class Swagger {
   produces: string[];
   paths: { [id: string] : Path };
   definitions: { [id: string]: Schema };
+  securityDefinitions: { [id: string]: SecurityScheme };
 }
 
 export class Info {
@@ -42,7 +43,7 @@ export class Operation {
   responses: { [id: string] : Response };
   schemes: string[];
   deprecates: boolean;
-  security: SecurityRequirement;
+  security: { [id: string]: string[] };
 }
 
 export class Contact {
@@ -81,6 +82,17 @@ export class Header {
 
 }
 
+export class SecurityScheme {
+  type: SecuritySchemeType;
+  description: string;
+  name: string;
+  in: string;
+  flow: string;
+  authorizationUrl: string;
+  tokenUrl: string;
+  scopes: { [id: string]: string };
+}
+
 export class SecurityRequirement {
 
 }
@@ -104,10 +116,16 @@ export class Item {
 
 }
 
+export type SecuritySchemeType = 'basic'|'apiKey'|'oauth2';
 export type In = 'query'|'header'|'path'|'formData'|'body';
 export type Type = 'object'|'string'|'integer'|'number'|'boolean'|'array';
 export type Format = 'int32'|'int64'|'float'|'double'|'string'|'byte'|'binary'|'boolean'|'date'|'date-time'|'password';
 
+export class SecuritySchemeTypes {
+  static basic: SecuritySchemeType = 'basic';
+  static apiKey: SecuritySchemeType = 'apiKey';
+  static oauth2: SecuritySchemeType = 'oauth2';
+}
 export class InLocations {
   static query: In = 'query';
   static header: In = 'header';

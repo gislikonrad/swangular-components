@@ -21,11 +21,19 @@ import { HttpMethodLabelComponent } from './components/http-method-label/http-me
 export { HttpMethodLabelComponent } from './components/http-method-label/http-method-label.component';
 import { HttpStatusLabelComponent } from './components/http-status-label/http-status-label.component';
 export { HttpStatusLabelComponent } from './components/http-status-label/http-status-label.component';
+import { AuthCallbackComponent } from './components/auth-callback/auth-callback.component';
+export { AuthCallbackComponent } from './components/auth-callback/auth-callback.component';
+import { AuthButtonComponent } from './components/auth-button/auth-button.component';
+export { AuthButtonComponent } from './components/auth-button/auth-button.component';
 
 import { SwaggerService } from './services/swagger.service';
 export { SwaggerService } from './services/swagger.service';
 import { ErrorService } from './services/error.service';
 export { ErrorService } from './services/error.service';
+import { AuthService } from './services/auth.service';
+export { AuthService } from './services/auth.service';
+import { TokenService } from './services/token.service';
+// export { TokenService } from './services/token.service';
 import { ApiKeyProvider, ApiKeyLocation } from './services/api-key.provider';
 export { ApiKeyProvider, ApiKeyLocation } from './services/api-key.provider';
 import { RequestBuilder } from './services/request.builder';
@@ -49,7 +57,9 @@ export const SWANGULAR_COMPONENTS: any[] = [
   ApiMethodFormComponent,
   ApiRequestModalComponent,
   HttpMethodLabelComponent,
-  HttpStatusLabelComponent
+  HttpStatusLabelComponent,
+  AuthCallbackComponent,
+  AuthButtonComponent
 ];
 
 export const SWANGULAR_PROVIDERS: any[] = [
@@ -57,7 +67,9 @@ export const SWANGULAR_PROVIDERS: any[] = [
   ErrorService,
   RequestBuilder,
   ApiKeyProvider,
-  HttpService
+  HttpService,
+  AuthService,
+  TokenService
 ];
 @NgModule({
     declarations: [

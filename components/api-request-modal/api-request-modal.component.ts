@@ -32,7 +32,7 @@ import { Request, Response, RequestMethod } from '@angular/http';
                 <tbody>
                   <tr *ngFor="let key of request.headers.keys()">
                     <td>{{key}}</td>
-                    <td>{{request.headers.get(key)}}</td>
+                    <td [title]="request.headers.get(key)">{{request.headers.get(key)}}</td>
                   </tr>
                 </tbody>
               </table>
@@ -50,7 +50,7 @@ import { Request, Response, RequestMethod } from '@angular/http';
                 <tbody>
                   <tr *ngFor="let key of response.headers.keys()">
                     <td>{{key}}</td>
-                    <td>{{response.headers.get(key)}}</td>
+                    <td [title]="response.headers.get(key)">{{response.headers.get(key)}}</td>
                   </tr>
                 </tbody>
               </table>
@@ -75,6 +75,9 @@ import { Request, Response, RequestMethod } from '@angular/http';
   </div>
   <div class="modal-backdrop fade in" *ngIf="request"></div>
   `,
+  styles: [
+    '.table>tbody>tr>td:nth-child(2) { white-space:nowrap; overflow:hidden; max-width:250px; }' // don't know why max-width: 1px works, it just does
+  ]
 })
 
 export class ApiRequestModalComponent implements OnInit, OnDestroy {
