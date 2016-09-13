@@ -6,6 +6,7 @@ import { guid } from './guid';
 @Injectable()
 export class AuthService {
     private _callbackUrl: string;
+    private _errorReported: boolean;
     private _guid: string;
     private _scopes: string[];
     callbackReady: boolean = false;
@@ -34,7 +35,8 @@ export class AuthService {
     }
 
     canSignIn(): boolean {
-      if(!this.callbackReady) {
+      if(!this.callbackReady && !this._errorReported) {
+        this._errorReported = true;
         this._errorService.setError('Cannot sign in for secure api request. The auth callback component has not been put into the app component template. Add the <auth-callback></auth-callback> to your app component template.');
       }
       return this.callbackReady && !this.oauthResponse;
