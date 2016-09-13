@@ -6,15 +6,18 @@ import { TemplateProvider } from '../../services/template.provider';
 @Component({
   selector: 'auth-callback',
   template: TemplateProvider.getTemplate('auth-callback') || `
-    <div>
-      Callback: {{!!isCallback}}
+    <div *ngIf="showResponse">
+      <h5>Last response</h5>
+      <pre>{{response | json}}</pre>
     </div>
   `
 })
 
 export class AuthCallbackComponent implements OnInit, OnDestroy {
+  @Input() showResponse: boolean;
   isCallback: boolean;
   init = new EventEmitter();
+  response: OauthResponse;
 
   constructor(
     private _zone: NgZone,
@@ -28,6 +31,7 @@ export class AuthCallbackComponent implements OnInit, OnDestroy {
   oauthcallback(oauthResponse: OauthResponse) {
     this._zone.run(() => {
       this._authService.oauthResponse = oauthResponse;
+      this.response = oauthResponse;
     });
   }
 
