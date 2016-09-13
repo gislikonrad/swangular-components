@@ -1,6 +1,5 @@
 import { Component, Input, OnInit, OnDestroy, Output, EventEmitter, NgZone } from '@angular/core';
-import { AuthService } from '../../services/auth.service';
-import { TokenService, OauthResponse } from '../../services/token.service';
+import { AuthService, OauthResponse } from '../../services/auth.service';
 import { ErrorService } from '../../services/error.service';
 import { TemplateProvider } from '../../services/template.provider';
 
@@ -20,8 +19,7 @@ export class AuthCallbackComponent implements OnInit, OnDestroy {
   constructor(
     private _zone: NgZone,
     private _authService: AuthService,
-    private _errorService: ErrorService,
-    private _tokenService: TokenService) {
+    private _errorService: ErrorService) {
       _authService.callbackReady = true;
       this.isCallback = !!window.opener;
       window['swangular'] = this;
@@ -29,11 +27,7 @@ export class AuthCallbackComponent implements OnInit, OnDestroy {
 
   oauthcallback(oauthResponse: OauthResponse) {
     this._zone.run(() => {
-      if(!!oauthResponse && oauthResponse.error) {
-        let message = `${oauthResponse.error}: ${oauthResponse.error_description}`;
-        this._errorService.setError(message);
-      }
-      this._tokenService.setOauthResponse(oauthResponse);
+      this._authService.oauthResponse = oauthResponse;
     });
   }
 
@@ -71,7 +65,7 @@ export class AuthCallbackComponent implements OnInit, OnDestroy {
       if(key == 'expires_in') {
         return parseInt(value);
       }
-      return key == "" ? value : this.decodeFormUrlEncoded(value);
+      return key == '' ? value : this.decodeFormUrlEncoded(value);
     });
     return <OauthResponse>response;
   }

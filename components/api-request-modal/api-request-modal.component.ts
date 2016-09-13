@@ -76,7 +76,7 @@ import { Request, Response, RequestMethod } from '@angular/http';
   <div class="modal-backdrop fade in" *ngIf="request"></div>
   `,
   styles: [
-    '.table>tbody>tr>td:nth-child(2) { white-space:nowrap; overflow:hidden; max-width:250px; }' // don't know why max-width: 1px works, it just does
+    '.table>tbody>tr>td:nth-child(2) { white-space:nowrap; overflow:hidden; max-width:250px; }'
   ]
 })
 

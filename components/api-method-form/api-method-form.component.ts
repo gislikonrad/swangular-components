@@ -52,8 +52,7 @@ import { Parameter, Type, Types } from '../../schema/2.0/swagger.schema';
           </tbody>
         </table>
       </div>
-      <button type="submit" class="btn btn-primary" [disabled]="requestForm.invalid">Try it out!</button>
-      {{request | json}}
+      <button type="submit" class="btn btn-primary" [disabled]="requestForm.invalid"><span class="glyphicon glyphicon-new-window" aria-hidden="true"></span> Try it out!</button>
     </form>
   `,
   styles: [

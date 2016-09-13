@@ -3,14 +3,14 @@ import { Parameter, InLocations } from '../schema/2.0/swagger.schema';
 import { Request, RequestMethod, Headers, RequestOptionsArgs, ResponseContentType } from '@angular/http';
 import { ApiKeyProvider } from './api-key.provider';
 import { SwaggerService } from './swagger.service';
-import { TokenService } from './token.service';
+import { AuthService } from './auth.service';
 
 @Injectable()
 export class RequestBuilder {
   responseContentType: string;
   requestContentType: string;
 
-  constructor(private _swaggerService: SwaggerService, private _apiKeyProvider: ApiKeyProvider, private _tokenService: TokenService) {
+  constructor(private _swaggerService: SwaggerService, private _apiKeyProvider: ApiKeyProvider, private _authService: AuthService) {
 
   }
 
@@ -60,8 +60,8 @@ export class RequestBuilder {
       map[this._apiKeyProvider.name] = this._apiKeyProvider.apikey;
     }
 
-    if(this._tokenService.accessToken && this._tokenService.tokenType) {
-      map['Authorization'] = `${this._tokenService.tokenType} ${this._tokenService.accessToken}`;
+    if(this._authService.accessToken && this._authService.tokenType) {
+      map['Authorization'] = `${this._authService.tokenType} ${this._authService.accessToken}`;
     }
 
     return new Headers(map);

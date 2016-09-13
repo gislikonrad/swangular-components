@@ -32,8 +32,6 @@ import { ErrorService } from './services/error.service';
 export { ErrorService } from './services/error.service';
 import { AuthService } from './services/auth.service';
 export { AuthService } from './services/auth.service';
-import { TokenService } from './services/token.service';
-// export { TokenService } from './services/token.service';
 import { ApiKeyProvider, ApiKeyLocation } from './services/api-key.provider';
 export { ApiKeyProvider, ApiKeyLocation } from './services/api-key.provider';
 import { RequestBuilder } from './services/request.builder';
@@ -68,8 +66,7 @@ export const SWANGULAR_PROVIDERS: any[] = [
   RequestBuilder,
   ApiKeyProvider,
   HttpService,
-  AuthService,
-  TokenService
+  AuthService
 ];
 @NgModule({
     declarations: [
