@@ -24,7 +24,7 @@ export class HttpMethodLabelComponent {
   }
 
   getMethodName(): string {
-    if(!this.method) {
+    if(this.method == null) {
       return '';
     }
     switch(this.method) {
@@ -40,22 +40,22 @@ export class HttpMethodLabelComponent {
   }
 
   isGet(): boolean {
-    return this.method && (this.method == RequestMethod.Get || this.caseInsensitiveEquals(<string>this.method, 'get'));
+    return this.method != null && (this.method == RequestMethod.Get || this.caseInsensitiveEquals(<string>this.method, 'get'));
   }
 
   isPost(): boolean {
-    return this.method && (this.method == RequestMethod.Post || this.caseInsensitiveEquals(<string>this.method, 'post'));
+    return this.method != null && (this.method == RequestMethod.Post || this.caseInsensitiveEquals(<string>this.method, 'post'));
   }
 
   isPutOrPatch(): boolean {
-    return this.method && (this.method == RequestMethod.Put
+    return this.method != null && (this.method == RequestMethod.Put
                         || this.method == RequestMethod.Patch
                         || this.caseInsensitiveEquals(<string>this.method, 'put')
                         || this.caseInsensitiveEquals(<string>this.method, 'patch'));
   }
 
   isDelete(): boolean {
-    return this.method && (this.method == RequestMethod.Delete || this.caseInsensitiveEquals(this.method, 'delete'));
+    return this.method != null && (this.method == RequestMethod.Delete || this.caseInsensitiveEquals(this.method, 'delete'));
   }
 
   private caseInsensitiveEquals(v1: string|RequestMethod, v2: string): boolean {
