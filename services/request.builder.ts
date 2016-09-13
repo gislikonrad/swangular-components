@@ -7,8 +7,10 @@ import { AuthService } from './auth.service';
 
 @Injectable()
 export class RequestBuilder {
-  responseContentType: string;
-  requestContentType: string;
+  // responseContentType: string;
+  // requestContentType: string;
+
+  forceSecure: boolean;
 
   constructor(private _swaggerService: SwaggerService, private _apiKeyProvider: ApiKeyProvider, private _authService: AuthService) {
 
@@ -19,12 +21,17 @@ export class RequestBuilder {
     let query: string[] = [];
     url = this.createAbsoluteUrl(url);
 
-    if(parameters) {
+    if(parameters && parameterDefinitions) {
       for(let parameter of parameterDefinitions) {
+        let value = parameters[parameter.name];
+        if(value == null || value == '') {
+          continue;
+        }
         if(parameter.in == InLocations.path){
           url = this.addParameterToUrlPath(url, parameter.name, parameters[parameter.name])
         }
         if(parameter.in == InLocations.query) {
+
           query.push(`${parameter.name}=${parameters[parameter.name]}`);
         }
         if(parameter.in == InLocations.body) {
@@ -82,14 +89,22 @@ export class RequestBuilder {
     }
   }
 
-  private createAbsoluteUrl(url: string) : string {
+  private createAbsoluteUrl(url: string): string {
     let swagger = this._swaggerService.latest;
-    let absolute = `${swagger.schemes[0]}://${swagger.host}`;
+    let absolute = `${this.getScheme()}://${swagger.host}`;
     if(swagger.basePath) {
       absolute += swagger.basePath;
     }
     absolute += url;
     return absolute;
+  }
+
+  private getScheme(): string {
+    let swagger = this._swaggerService.latest;
+    if(this.forceSecure || swagger.schemes.indexOf('https') > -1) { // force or prefer https
+      return 'https';
+    }
+    return swagger.schemes[0];
   }
 
   private addParameterToUrlPath(url: string, name: string, value: string): string {

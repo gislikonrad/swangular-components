@@ -28,14 +28,6 @@ import { Operation, Response } from '../../schema/2.0/swagger.schema';
               <div class="col-md-6">
                 <h4>Response class <small>Status {{defaultResponseCode}} ({{defaultResponse.description}})</small></h4>
                 <api-model [schema]="defaultResponse.schema"></api-model>
-                <!--<form>
-                  <div class="form-group">
-                    <label for="responseContentTypeSelect">Response content type</label>
-                    <select class="form-control" id="responseContentTypeSelect" [(ngModel)]="responseContentType" #responseContentTypeSelect="ngModel" name="responseContentTypeSelect">
-                      <option *ngFor="let mimeType of operation.produces" [value]="mimeType">{{mimeType}}</option>
-                    </select>
-                  </div>
-                </form>-->
               </div>
             </div>
           </div>
@@ -63,8 +55,7 @@ import { Operation, Response } from '../../schema/2.0/swagger.schema';
     '.panel-success .panel-body, .panel-success .list-group-item { background-color: #f8fff1 }',
     '.panel-warning .panel-body, .panel-warning .list-group-item { background-color: #fffff0 }',
     '.panel-danger .panel-body, .panel-danger .list-group-item { background-color: #fff8f8 }',
-  ],
-  providers: [ RequestBuilder ]
+  ]
 })
 
 export class ApiMethodComponent implements OnInit {
@@ -76,21 +67,12 @@ export class ApiMethodComponent implements OnInit {
   defaultResponse: Response;
   otherResponses: { [id: string]: Response };
 
-  set responseContentType(value: string) {
-    this._builder.responseContentType = value;
-  }
-
-  get responseContentType(): string {
-    return this._builder.responseContentType;
-  }
-
   constructor(private _builder: RequestBuilder) {}
 
   ngOnInit() {
     this.defaultResponseCode = this.getDefaultResponseCode();
     this.defaultResponse = this.operation.responses[this.defaultResponseCode];
     this.otherResponses = this.getOtherResponses();
-    this._builder.responseContentType = this.operation.produces[0];
   }
 
   private getOtherResponses(): any {
