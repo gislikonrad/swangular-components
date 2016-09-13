@@ -11,8 +11,8 @@ import { TemplateProvider } from '../../services/template.provider';
   selector: 'http-status-label',
   template: TemplateProvider.getTemplate('http-status-label') || `
     <span class="label"
-         [class.label-info]="isSuccess()"
-         [class.label-success]="isRedirect()"
+         [class.label-success]="isSuccess()"
+         [class.label-info]="isRedirect()"
          [class.label-warning]="isClientError()"
          [class.label-danger]="isServerError()">{{status}} <span class="badge">{{statusCode}}</span></span>
   `,
