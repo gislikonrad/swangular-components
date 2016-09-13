@@ -79,7 +79,9 @@ export class Response {
 }
 
 export class Header {
-
+  description: string;
+  type: Type;
+  format: Format;
 }
 
 export class SecurityScheme {

@@ -9,6 +9,8 @@ import { ApiMethodComponent } from './components/api-method/api-method.component
 export { ApiMethodComponent } from './components/api-method/api-method.component';
 import { ApiMethodResponsesComponent } from './components/api-method-responses/api-method-responses.component';
 export { ApiMethodResponsesComponent } from './components/api-method-responses/api-method-responses.component';
+import { ApiMethodResponseHeadersComponent } from './components/api-method-response-headers/api-method-response-headers.component';
+export { ApiMethodResponseHeadersComponent } from './components/api-method-response-headers/api-method-response-headers.component';
 import { ApiModelComponent } from './components/api-model/api-model.component';
 export { ApiModelComponent } from './components/api-model/api-model.component';
 import { ApiMethodFormComponent } from './components/api-method-form/api-method-form.component';
@@ -57,7 +59,8 @@ export const SWANGULAR_COMPONENTS: any[] = [
   HttpMethodLabelComponent,
   HttpStatusLabelComponent,
   AuthCallbackComponent,
-  AuthButtonComponent
+  AuthButtonComponent,
+  ApiMethodResponseHeadersComponent
 ];
 
 export const SWANGULAR_PROVIDERS: any[] = [

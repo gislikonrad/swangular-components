@@ -31,7 +31,6 @@ export class RequestBuilder {
           url = this.addParameterToUrlPath(url, parameter.name, parameters[parameter.name])
         }
         if(parameter.in == InLocations.query) {
-
           query.push(`${parameter.name}=${parameters[parameter.name]}`);
         }
         if(parameter.in == InLocations.body) {

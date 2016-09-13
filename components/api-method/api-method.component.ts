@@ -35,6 +35,10 @@ import { Operation, Response } from '../../schema/2.0/swagger.schema';
             <auth-button [security]="operation.security"></auth-button>
           </div>
         </div>
+        <div *ngIf="defaultResponse.headers">
+          <h4>Response headers</h4>
+          <api-method-response-headers [headers]="defaultResponse.headers"></api-method-response-headers>
+        </div>
       </div>
       <ul class="list-group" *ngIf="expanded">
         <li class="list-group-item">
@@ -44,6 +48,7 @@ import { Operation, Response } from '../../schema/2.0/swagger.schema';
                            [consumes]="operation.consumes"></api-method-form>
         </li>
         <li class="list-group-item">
+          <h4>Other responses</h4>
           <api-method-responses [responses]="otherResponses"></api-method-responses>
         </li>
       </ul>
