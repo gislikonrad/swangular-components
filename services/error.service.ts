@@ -15,6 +15,7 @@ export class ErrorService {
   }
 
   setError(description: string) {
+    console.error(description);
     this._latestError$.next(description);
   }
 }
