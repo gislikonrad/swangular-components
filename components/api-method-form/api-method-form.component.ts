@@ -11,7 +11,7 @@ import { Parameter, Type, Types } from '../../schema/2.0/swagger.schema';
 @Component({
   selector: 'api-method-form',
   template: TemplateProvider.getTemplate('api-method-form') || `
-    <form [formGroup]="requestForm" (submit)="performRequest()">
+    <form [formGroup]="requestForm" (submit)="performRequest()" novalidate>
       <h4>Parameters</h4>
       <div *ngIf="parameters">
         <table class="table table-condensed">
@@ -31,15 +31,8 @@ import { Parameter, Type, Types } from '../../schema/2.0/swagger.schema';
             <tr *ngFor="let parameter of parameters">
               <td *ngIf="!parameter.required">{{parameter.name}}</td>
               <td *ngIf="parameter.required"><strong>{{parameter.name}}</strong></td>
-              <td *ngIf="parameter.type">
-                <div class="form-group" [class.has-error]="requestForm.controls[parameter.name].invalid && !requestForm.controls[parameter.name].pristine">
-                  <input [formControlName]="parameter.name" [name]="parameter.name" class="form-control" />
-                </div>
-              </td>
-              <td *ngIf="parameter.schema">
-                <div class="form-group" [class.has-error]="requestForm.controls[parameter.name].invalid && !requestForm.controls[parameter.name].pristine">
-                  <textarea [formControlName]="parameter.name" [name]="parameter.name" class="form-control"></textarea>
-                </div>
+              <td>
+                <api-method-form-control [form]="requestForm" [parameter]="parameter"></api-method-form-control>
               </td>
               <td *ngIf="!parameter.required">{{parameter.description}}</td>
               <td *ngIf="parameter.required"><strong>{{parameter.description}}</strong></td>
@@ -52,13 +45,9 @@ import { Parameter, Type, Types } from '../../schema/2.0/swagger.schema';
           </tbody>
         </table>
       </div>
-      <button type="submit" class="btn btn-primary" [disabled]="requestForm.invalid"><span class="glyphicon glyphicon-new-window" aria-hidden="true"></span> Try it out!</button>
+      <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-new-window" aria-hidden="true"></span> Try it out!</button>
     </form>
-  `,
-  styles: [
-    'textarea { width: 300px; height: 200px;}',
-    'input { width: 300px}'
-  ]
+  `
 })
 
 export class ApiMethodFormComponent implements OnInit {
@@ -68,7 +57,6 @@ export class ApiMethodFormComponent implements OnInit {
   @Input() consumes: string[] = [];
 
   requestForm: FormGroup;
-
   values: { [id: string]: any } = {}
 
   constructor(
@@ -81,27 +69,16 @@ export class ApiMethodFormComponent implements OnInit {
   }
 
   ngOnInit() {
+    // Build base form
     let definition: { [key: string]: any } = {};
     if(this.parameters) {
       for(let parameter of this.parameters) {
         definition[parameter.name] = [''];
-        if(parameter.required) {
-          definition[parameter.name].push(Validators.required);
-        }
       }
     }
     this.requestForm = this._formBuilder.group(definition);
+    console.log(this.requestForm);
   }
-
-  // getInputType(type: Type): string {
-  //   switch(type) {
-  //     case Types.number:
-  //     case Types.integer: return 'number';
-  //
-  //     case Types.string:
-  //     default: return 'text';
-  //   }
-  // }
 
   performRequest() {
     if(this.requestForm.invalid) {

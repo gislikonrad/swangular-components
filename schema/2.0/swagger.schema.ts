@@ -57,19 +57,6 @@ export class License {
   url: string;
 }
 
-export class Parameter {
-  name: string;
-  in: In;
-  description: string;
-  required: boolean;
-  schema: Schema;
-  type: string;
-  enum: string[];
-  format: string;
-  allowEmptyValue: boolean;
-  items: Item[];
-}
-
 export class Reference {
 }
 
@@ -77,12 +64,6 @@ export class Response {
   description: string;
   schema: string;
   headers: { [id: string] : Header };
-}
-
-export class Header {
-  description: string;
-  type: Type;
-  format: Format;
 }
 
 export class SecurityScheme {
@@ -105,23 +86,53 @@ export class ExternalDocumentation {
   url: string;
 }
 
-export class Schema {
+export class Parameter extends SchemaBase {
+  name: string;
+  in: In;
+  required: boolean;
+  schema: Schema;
+  enum: string[];
+  allowEmptyValue: boolean;
+  items: Schema;
+  multipleOf: number;
+}
+
+export class Header extends SchemaBase {
+  collectionFormat: CollectionFormat;
+  multipleOf: number;
+}
+
+export class Schema extends SchemaBase {
   $ref: string;
   title: string;
-  format: Format;
-  type: Type;
-  enum: string[];
   items: Schema;
   required: string[];
-  minimum: number;
-  maximum: number;
   properties: { [id: string]: Schema }
 }
 
-export class Item {
-
+export class SchemaBase {
+  type: Type;
+  format: Format;
+  default: any;
+  description: string;
+  maximum: number;
+  exclusiveMaximum: boolean;
+  minimum: number;
+  exclusiveMinimum: boolean;
+  maxLength: number;
+  minLength: number;
+  pattern: string;
+  maxItems: number;
+  minItems: number;
+  uniqueItems: boolean;
+  enum: string[];
 }
 
+// export class Item {
+//
+// }
+
+export type CollectionFormat = 'csv'|'ssv'|'tsv'|'pipes';
 export type SecuritySchemeType = 'basic'|'apiKey'|'oauth2';
 export type In = 'query'|'header'|'path'|'formData'|'body';
 export type Type = 'object'|'string'|'integer'|'number'|'boolean'|'array';

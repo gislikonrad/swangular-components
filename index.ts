@@ -15,6 +15,8 @@ import { ApiModelComponent } from './components/api-model/api-model.component';
 export { ApiModelComponent } from './components/api-model/api-model.component';
 import { ApiMethodFormComponent } from './components/api-method-form/api-method-form.component';
 export { ApiMethodFormComponent } from './components/api-method-form/api-method-form.component';
+import { ApiMethodFormControlComponent, FORM_CONTROLS } from './components/api-method-form-control/api-method-form-control.component';
+export { ApiMethodFormControlComponent } from './components/api-method-form-control/api-method-form-control.component';
 import { ErrorPanelComponent } from './components/error-panel/error-panel.component';
 export { ErrorPanelComponent } from './components/error-panel/error-panel.component';
 import { ApiRequestModalComponent } from './components/api-request-modal/api-request-modal.component';
@@ -48,6 +50,10 @@ export { VarDirective } from './directives/var.directive';
 export * from './services/template.provider';
 export * from './schema/2.0/swagger.schema';
 
+const ENTRY_COMPONENTS: any[] = [
+    ...FORM_CONTROLS
+];
+
 export const SWANGULAR_COMPONENTS: any[] = [
   ApiSwaggerComponent,
   ApiMethodComponent,
@@ -55,12 +61,14 @@ export const SWANGULAR_COMPONENTS: any[] = [
   ApiModelComponent,
   ErrorPanelComponent,
   ApiMethodFormComponent,
+  ApiMethodFormControlComponent,
   ApiRequestModalComponent,
   HttpMethodLabelComponent,
   HttpStatusLabelComponent,
   AuthCallbackComponent,
   AuthButtonComponent,
-  ApiMethodResponseHeadersComponent
+  ApiMethodResponseHeadersComponent,
+  ...ENTRY_COMPONENTS
 ];
 
 export const SWANGULAR_PROVIDERS: any[] = [
@@ -85,7 +93,8 @@ export const SWANGULAR_PROVIDERS: any[] = [
       HttpModule,
       FormsModule,
       ReactiveFormsModule
-    ]
+    ],
+    entryComponents: ENTRY_COMPONENTS
 })
 export class SwangularModule {
   static forRoot(): ModuleWithProviders {

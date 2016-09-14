@@ -6,12 +6,12 @@ swangular-components is a component library for angular 2.0.0-rc.5 to render swa
 - [x] Create base module
 - [x] Fix for npm link
 - [x] Add Output to api-swagger for debug purposes on swagger updates
-- [ ] Add more validation than just required
+- [x] Add more validation than just required
 - [ ] Finish request builder
-- [ ] Add support for security property in swagger 2.0
+- [x] Add support for security property in swagger 2.0
 - [ ] Make scheme selectable for the request if there are more than one
 - [ ] Clean up auth service. It's not pretty.
-- [ ] Show enumerations of enums.
+- [x] Show enumerations of enums.
 
 ## Usage
 ```
