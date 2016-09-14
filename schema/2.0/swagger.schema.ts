@@ -86,6 +86,24 @@ export class ExternalDocumentation {
   url: string;
 }
 
+export class SchemaBase {
+  type: Type;
+  format: Format;
+  default: any;
+  description: string;
+  maximum: number;
+  exclusiveMaximum: boolean;
+  minimum: number;
+  exclusiveMinimum: boolean;
+  maxLength: number;
+  minLength: number;
+  pattern: string;
+  maxItems: number;
+  minItems: number;
+  uniqueItems: boolean;
+  enum: string[];
+}
+
 export class Parameter extends SchemaBase {
   name: string;
   in: In;
@@ -108,24 +126,6 @@ export class Schema extends SchemaBase {
   items: Schema;
   required: string[];
   properties: { [id: string]: Schema }
-}
-
-export class SchemaBase {
-  type: Type;
-  format: Format;
-  default: any;
-  description: string;
-  maximum: number;
-  exclusiveMaximum: boolean;
-  minimum: number;
-  exclusiveMinimum: boolean;
-  maxLength: number;
-  minLength: number;
-  pattern: string;
-  maxItems: number;
-  minItems: number;
-  uniqueItems: boolean;
-  enum: string[];
 }
 
 // export class Item {
