@@ -64,6 +64,7 @@ export class Parameter {
   required: boolean;
   schema: Schema;
   type: string;
+  enum: string[];
   format: string;
   allowEmptyValue: boolean;
   items: Item[];
@@ -109,8 +110,11 @@ export class Schema {
   title: string;
   format: Format;
   type: Type;
+  enum: string[];
   items: Schema;
   required: string[];
+  minimum: number;
+  maximum: number;
   properties: { [id: string]: Schema }
 }
 

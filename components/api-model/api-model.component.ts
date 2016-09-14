@@ -19,7 +19,7 @@ import { Swagger, Schema, Types, Type } from '../../schema/2.0/swagger.schema';
               <span>
               &nbsp;&nbsp;
               <strong>{{p.key}}</strong>
-              (<span *ngIf="p.value.type">{{p.value.type}}</span><span *ngIf="p.value.$ref">{{getSchemaDefinitionName(p.value.$ref)}}</span><span *ngIf="!isRequired(s.var.schema, p.key)">, optional</span>)</span><br />
+              ({{getPropertyTypeName(p.value)}}<span *ngIf="!isRequired(s.var.schema, p.key)">, optional</span>)</span> <span *ngIf="p.value.enum">= {{p.value.enum | json}} </span><br />
             </span>
           <strong>{{ '}' }}</strong>
         </small>
@@ -41,11 +41,6 @@ export class ApiModelComponent implements OnInit, OnDestroy {
 
   }
 
-  displayModelExample(schema: Schema): string {
-    let model = this.generateDisplayObject(schema);
-    return JSON.stringify(model, null, 2);
-  }
-
   ngOnInit() {
     this._sub = this._swaggerService.subscription.subscribe(swagger => {
       this._definitions = swagger.definitions;
@@ -57,6 +52,23 @@ export class ApiModelComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this._sub.unsubscribe();
+  }
+
+  displayModelExample(schema: Schema): string {
+    let model = this.generateDisplayObject(schema);
+    return JSON.stringify(model, null, 2);
+  }
+
+  getPropertyTypeName(schema: Schema): string {
+    if(schema.type) {
+      if(schema.type == Types.array) {
+        return `Array[${this.getPropertyTypeName(schema.items)}]`;
+      }
+      return schema.type;
+    }
+    if(schema.$ref) {
+      return this.getSchemaDefinitionName(schema.$ref);
+    }
   }
 
   getSchema($ref: string): Schema {
@@ -91,6 +103,11 @@ export class ApiModelComponent implements OnInit, OnDestroy {
   private getSchemaRefs(schema: Schema, refs?: string[]): string[] {
     if(!refs) {
       refs = [];
+    }
+    if(schema.type == Types.array) {
+      if(schema.items) {
+        return this.getSchemaRefs(schema.items, refs);
+      }
     }
     if(schema.$ref && refs.indexOf(schema.$ref) == -1) {
       refs.push(schema.$ref);
@@ -141,17 +158,27 @@ export class ApiModelComponent implements OnInit, OnDestroy {
   }
 
   private getDefaultValue(schema: Schema): any {
+    if(schema.type && schema.type == Types.array) {
+      return [this.getDefaultValue(schema.items)];
+    }
+
     if(schema.$ref) {
       return this.generateDisplayObject(schema);
     }
 
-    switch(schema.type){
-      case Types.number:
-      case Types.integer: return 0;
+    if(schema.type == Types.number || schema.type == Types.integer) {
+      return schema.minimum || 0;
+    }
 
-      case Types.boolean: return false;
+    if(schema.type == Types.boolean) {
+      return false;
+    }
 
-      case Types.string: return 'string';
+    if(schema.type == Types.string) {
+      if(schema.enum) {
+        return schema.enum[0];
+      }
+      return 'string';
     }
   }
 }
