@@ -26,7 +26,7 @@ export class SelectControlComponent implements OnInit, IApiMethodFormComponent {
   ngOnInit() {
     if(this.parameter.required) {
       let control = <FormControl>this.form.controls[this.parameter.name];
-      control.updateValue(this.enum[0]);
+      control.setValue(this.enum[0]);
     }
   }
 

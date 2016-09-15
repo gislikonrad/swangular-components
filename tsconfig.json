@@ -11,7 +11,7 @@
     "suppressImplicitAnyIndexErrors": true,
     "declaration": true,
     "diagnostics": true,
-    "listFiles": true
+    "listFiles": false
   },
   "exclude": [
     "node_modules",

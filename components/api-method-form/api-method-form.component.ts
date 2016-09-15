@@ -4,7 +4,6 @@ import { RequestBuilder } from '../../services/request.builder';
 import { HttpService } from '../../services/http.service';
 import { TemplateProvider } from '../../services/template.provider';
 import { Http, Headers } from '@angular/http';
-import { Validators } from '@angular/common';
 import { FormGroup, FormControl, FormBuilder } from '@angular/forms';
 import { Parameter, Type, Types } from '../../schema/2.0/swagger.schema';
 
@@ -65,7 +64,6 @@ export class ApiMethodFormComponent implements OnInit {
     private _httpService: HttpService,
     private _formBuilder: FormBuilder,
     private _errorService: ErrorService) {
-
   }
 
   ngOnInit() {
@@ -77,7 +75,6 @@ export class ApiMethodFormComponent implements OnInit {
       }
     }
     this.requestForm = this._formBuilder.group(definition);
-    console.log(this.requestForm);
   }
 
   performRequest() {

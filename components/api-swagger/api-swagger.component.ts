@@ -22,7 +22,6 @@ import { Swagger } from '../../schema/2.0/swagger.schema';
       <api-request-modal></api-request-modal>
     </div>
   `,
-  directives: [ ApiMethodComponent ],
   providers: [ SwaggerService, RequestBuilder ]
 })
 

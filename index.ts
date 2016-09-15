@@ -1,7 +1,7 @@
 import { BrowserModule  } from '@angular/platform-browser';
 import { HttpModule } from '@angular/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { ModuleWithProviders, provide, NgModule } from '@angular/core';
+import { ModuleWithProviders, NgModule } from '@angular/core';
 
 import { ApiSwaggerComponent } from './components/api-swagger/api-swagger.component';
 export { ApiSwaggerComponent } from './components/api-swagger/api-swagger.component';
