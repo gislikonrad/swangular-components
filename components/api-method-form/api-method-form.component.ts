@@ -28,15 +28,15 @@ import { Parameter, Type, Types } from '../../schema/2.0/swagger.schema';
               <td colspan="5" class="text-center">No parameters</td>
             </tr>
             <tr *ngFor="let parameter of parameters">
-              <td *ngIf="!parameter.required">{{parameter.name}}</td>
-              <td *ngIf="parameter.required"><strong>{{parameter.name}}</strong></td>
+              <td *ngIf="!parameter.required"><p class="form-control-static">{{parameter.name}}</p></td>
+              <td *ngIf="parameter.required"><p class="form-control-static"><strong>{{parameter.name}}</strong></p></td>
               <td>
                 <api-method-form-control [form]="requestForm" [parameter]="parameter"></api-method-form-control>
               </td>
-              <td *ngIf="!parameter.required">{{parameter.description}}</td>
-              <td *ngIf="parameter.required"><strong>{{parameter.description}}</strong></td>
-              <td>{{parameter.in}}</td>
-              <td *ngIf="parameter.type">{{parameter.type}}</td>
+              <td *ngIf="!parameter.required"><p class="form-control-static">{{parameter.description}}</p></td>
+              <td *ngIf="parameter.required"><p class="form-control-static"><strong>{{parameter.description}}</strong></p></td>
+              <td><p class="form-control-static">{{parameter.in}}</p></td>
+              <td *ngIf="parameter.type"><p class="form-control-static">{{parameter.type}}</p></td>
               <td *ngIf="parameter.schema">
                 <api-model [schema]="parameter.schema"></api-model>
               </td>
