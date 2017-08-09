@@ -10,7 +10,8 @@ import { Operation, Response } from '../../schema/2.0/swagger.schema';
         [class.panel-info]="method == 'get'"
         [class.panel-success]="method == 'post'"
         [class.panel-warning]="method == 'put' || method == 'patch'"
-        [class.panel-danger]="method == 'delete'">
+        [class.panel-danger]="method == 'delete'"
+        [class.panel-default]="method == 'head' || method == 'options'">
       <div class="panel-heading" (click)="expanded = !expanded">
         <h3 class="panel-title">
           <http-method-label [method]="method"></http-method-label> {{urlTemplate}}

@@ -9,7 +9,8 @@ import { RequestMethod } from '@angular/http';
          [class.label-info]="isGet()"
          [class.label-success]="isPost()"
          [class.label-warning]="isPutOrPatch()"
-         [class.label-danger]="isDelete()">{{getMethodName()}}</span>
+         [class.label-danger]="isDelete()"
+         [class.panel-default]="isHeadOrOptions()">{{getMethodName()}}</span>
   `,
   styles: [
       '.label { padding-top: 0.4em; }',
@@ -56,6 +57,13 @@ export class HttpMethodLabelComponent {
 
   isDelete(): boolean {
     return this.method != null && (this.method == RequestMethod.Delete || this.caseInsensitiveEquals(this.method, 'delete'));
+  }
+
+  isHeadOrOptions(): boolean {
+    return this.method != null && (this.method == RequestMethod.Head
+                        || this.method == RequestMethod.Options
+                        || this.caseInsensitiveEquals(<string>this.method, 'head')
+                        || this.caseInsensitiveEquals(<string>this.method, 'options'));
   }
 
   private caseInsensitiveEquals(v1: string|RequestMethod, v2: string): boolean {
