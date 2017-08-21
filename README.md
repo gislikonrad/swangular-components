@@ -22,26 +22,6 @@ swangular-components is a component library for angular 2.0.0 to render swagger 
 npm install swangular-components --save
 ```
 
-### Changes in systemjs.config.js
-```
-  var map = {
-    'app':                        'dist',
-
-    '@angular':                   'node_modules/@angular',
-    'rxjs':                       'node_modules/rxjs',
-
-    'swangular-components':       'node_modules/swangular-components'
-  };
-
-  // packages tells the System loader how to load when no filename and/or no extension
-  var packages = {
-    'app':                        { main: 'boot.js',  defaultExtension: 'js' },
-    'rxjs':                       { defaultExtension: 'js' },
-
-    'swangular-components':       { main: 'index.js', defaultExtension: 'js'}
-  };
-```
-
 ### Import in NgModule
 ```ts
   import { NgModule }       from '@angular/core';
@@ -51,7 +31,7 @@ npm install swangular-components --save
   import { FormsModule } from '@angular/forms';
   import { HttpModule } from '@angular/http';
 
-  import { SwangularModule } from 'swangular-components';
+  import { SwangularComponentsModule } from 'swangular-components';
 
   @NgModule({
       declarations: [
@@ -62,7 +42,7 @@ npm install swangular-components --save
         HttpModule,
         FormsModule,
         routes,
-        SwangularModule.forRoot()
+        SwangularComponentsModule.forRoot()
       ],
       bootstrap:    [AppComponent]
   })
@@ -86,13 +66,13 @@ api-swagger is the root of the tree. If you use this element, it basically injec
 ### api-method
 api-method is for showing what a url-verb combo does, i.e GET - /values
 ```html
-<api-method operation="{{operationObject}}" verb="get" urlTemplate="/values/{id}"></api-method>
+<api-method [operation]="operationObject" verb="get" urlTemplate="/values/{id}"></api-method>
 ```
 
 ### api-model
 api-model is for showing the schema and example of a request or response model
 ```html
-<api-model schema="{{schemaObject}}"></api-swagger>
+<api-model [schema]="schemaObject"></api-swagger>
 ```
 
 ## Providers
@@ -104,3 +84,6 @@ SwaggerService should be used to make a request to a swagger 2.0 endpoint.
 
 ### ErrorService
 Any errors reported into this service get put into the error panel.
+
+### ApiKeyService
+Provide an api key to be used to call services that require an api key. This api key will also be used as the clientId for OAuth2 requests.
