@@ -1,0 +1,6 @@
+<div class="form-group" [formGroup]="form" [class.has-error]="form.controls[parameter.name].invalid && !form.controls[parameter.name].pristine">
+  <select [formControlName]="parameter.name" [name]="parameter.name" class="form-control">
+    <option *ngIf="!parameter.required" value=''></option>
+    <option *ngFor="let value of enum" [value]="value">{{value}}</option>
+  </select>
+</div>

@@ -1,0 +1,15 @@
+<div>
+  <!-- Create seperate component for this -->
+  <p *ngFor="let ref of refs" #s="var" [var]="getSchemaAndName(ref)">
+    <small>
+      <strong>{{s.var.name}} {{ '{' }}</strong><br />
+        <span *ngFor="let p of (s.var.schema.properties || {}) | keyValuePairs">
+          <span>
+          &nbsp;&nbsp;
+          <strong>{{p.key}}</strong>
+          ({{getPropertyTypeName(p.value)}}<span *ngIf="!isRequired(s.var.schema, p.key)">, optional</span>)</span> <span *ngIf="p.value.enum">= {{p.value.enum | json}} </span><br />
+        </span>
+      <strong>{{ '}' }}</strong>
+    </small>
+  </p>
+</div>

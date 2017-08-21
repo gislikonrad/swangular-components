@@ -1,0 +1,43 @@
+<div class="panel" [ngClass]="{ 'panel-info': isGet(method), 'panel-success': isPost(method), 'panel-warning': isPutOrPatch(method), 'panel-danger': isDelete(method), 'panel-default': isOther(method) }">
+  <div class="panel-heading" (click)="expanded = !expanded">
+    <h3 class="panel-title">
+      <api-http-method-label [method]="method"></api-http-method-label> {{urlTemplate}}
+      <span class="pull-right">{{operation.summary}}</span>
+    </h3>
+  </div>
+  <div class="panel-body" *ngIf="expanded">
+    <div class="row">
+      <div class="col-md-10">
+        <div *ngIf="operation.description">
+          <h4>Implementation notes</h4>
+          <p [innerHtml]="operation.description"></p>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <h4>Response class <small>Status {{defaultResponseCode}} ({{defaultResponse.description}})</small></h4>
+            <api-model [schema]="defaultResponse.schema"></api-model>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-2">
+        <api-auth-button [security]="operation.security"></api-auth-button>
+      </div>
+    </div>
+    <div *ngIf="defaultResponse.headers">
+      <h4>Response headers</h4>
+      <api-method-response-headers [headers]="defaultResponse.headers"></api-method-response-headers>
+    </div>
+  </div>
+  <ul class="list-group" *ngIf="expanded">
+    <li class="list-group-item">
+      <api-method-form [parameters]="operation.parameters"
+                        [method]="method"
+                        [urlTemplate]="urlTemplate"
+                        [consumes]="operation.consumes"></api-method-form>
+    </li>
+    <li class="list-group-item">
+      <h4>Other responses</h4>
+      <api-method-responses [responses]="otherResponses"></api-method-responses>
+    </li>
+  </ul>
+</div>
