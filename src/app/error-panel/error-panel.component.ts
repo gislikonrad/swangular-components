@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ErrorService } from "../services/error.service";
 
 @Component({
@@ -6,7 +6,7 @@ import { ErrorService } from "../services/error.service";
   templateUrl: './error-panel.component.html',
   styleUrls: ['./error-panel.component.css']
 })
-export class ErrorPanelComponent implements OnInit {
+export class ErrorPanelComponent implements OnInit, OnDestroy {
   
   private _sub: any;
   errors: string[] = [];
