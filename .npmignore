@@ -19,3 +19,7 @@ tsconfig
 .editorconfig
 karma.conf.js
 protractor.conf.js
+
+src/
+e2e/
+.scripts/

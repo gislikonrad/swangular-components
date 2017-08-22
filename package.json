@@ -1,15 +1,24 @@
 {
   "name": "swangular-components",
   "version": "1.0.0",
+  "description": "A component library for swagger ui written in angular4",
+  "author": "Gísli Konráð Björnsson <gisli.konrad@gmail.com>",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gislikonrad/swangular-components"
+  },
+  "bugs": {
+    "url": "https://github.com/gislikonrad/swangular-components/issues"
+  },
   "license": "Unlicense",  
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build",
-    "test": "ng test",
+    "build": "tsc",
     "lint": "ng lint",
     "e2e": "ng e2e"
   },
+  "main": "dist/components/index.js",
   "private": false,
   "dependencies": {
     "@angular/common": "^4.0.0",
