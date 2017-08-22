@@ -1,0 +1,21 @@
+# Node generated files
+node_modules
+npm-debug.log
+
+# OS generated files
+Thumbs.db
+.DS_Store
+
+# Ignored files
+scripts
+.travis.yml
+.gitattributes
+.npmignore
+.typingsrc
+tslint.json
+tsconfig
+*.d.ts
+.angular-cli.json
+.editorconfig
+karma.conf.js
+protractor.conf.js
