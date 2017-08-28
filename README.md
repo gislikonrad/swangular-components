@@ -41,7 +41,6 @@ npm install swangular-components --save
         BrowserModule,
         HttpModule,
         FormsModule,
-        routes,
         SwangularComponentsModule.forRoot()
       ],
       bootstrap:    [AppComponent]
