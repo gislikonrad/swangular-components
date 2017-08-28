@@ -1,14 +1,14 @@
-// import { SwangularComponentsPage } from './app.po';
+import { SwangularPage } from './app.po';
 
-// describe('swangular-components App', () => {
-//   let page: SwangularComponentsPage;
+describe('swangular App', () => {
+  let page: SwangularPage;
 
-//   beforeEach(() => {
-//     page = new SwangularComponentsPage();
-//   });
+  beforeEach(() => {
+    page = new SwangularPage();
+  });
 
-//   it('should display message saying app works', () => {
-//     page.navigateTo();
-//     expect(page.getParagraphText()).toEqual('app works!');
-//   });
-// });
+  it('should display message saying app works', () => {
+    page.navigateTo();
+    expect(page.getParagraphText()).toEqual('app works!');
+  });
+});

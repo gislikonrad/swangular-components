@@ -1,25 +1,17 @@
-# Node generated files
+src
+e2e
 node_modules
-npm-debug.log
 
-# OS generated files
-Thumbs.db
-.DS_Store
+module
+!module/app/swangular-components
+!module/index*
 
-# Ignored files
-scripts
-.travis.yml
-.gitattributes
-.npmignore
-.typingsrc
-tslint.json
-tsconfig
-*.d.ts
 .angular-cli.json
 .editorconfig
+.gitignore
+.npmignore
 karma.conf.js
 protractor.conf.js
-
-src/
-e2e/
-.scripts/
+tsconfig.json
+tslint.json
+favicon.ico

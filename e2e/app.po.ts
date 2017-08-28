@@ -1,12 +1,11 @@
-// import { browser, by, element } from 'protractor';
+import { browser, by, element } from 'protractor';
 
-// export class SwangularComponentsPage {
-//   navigateTo() {
-//     return browser.get('/');
-//   }
+export class SwangularPage {
+  navigateTo() {
+    return browser.get('/');
+  }
 
-//   getParagraphText() {
-//     return element(by.css('app-root h1')).getText();
-//   }
-// }
-// // 
+  getParagraphText() {
+    return element(by.css('app-root h1')).getText();
+  }
+}

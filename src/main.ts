@@ -1,12 +1,11 @@
-// import { enableProdMode } from '@angular/core';
-// import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
+import { enableProdMode } from '@angular/core';
+import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 
-// import { SwangularComponentsModule } from './app/swangular-components.module';
+import { AppModule } from './app/app.module';
+import { environment } from './environments/environment';
 
-// export { ErrorService } from './app/services/error.service';
-// export { ApiKeyService } from './app/services/api-key.service';
-// export { SwaggerService } from './app/services/swagger.service';
+if (environment.production) {
+  enableProdMode();
+}
 
-// export { SwangularComponentsModule } from './app/swangular-components.module';
-
-// platformBrowserDynamic().bootstrapModule(SwangularComponentsModule);
+platformBrowserDynamic().bootstrapModule(AppModule);
