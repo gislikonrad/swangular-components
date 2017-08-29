@@ -4,10 +4,10 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
 import { AppComponent } from './app.component';
-import { SwangularComponentsModule } from "app/swangular-components/swangular-components.module";
+import { SwangularComponentsModule } from "./swangular-components/swangular-components.module";
 import { HomeComponent } from './home/home.component';
 import { DemoComponent } from './demo/demo.component';
-import { AppRoutingModule } from "app/app.routing";
+import { AppRoutingModule } from "./app.routing";
 
 @NgModule({
   declarations: [

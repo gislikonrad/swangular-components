@@ -1,6 +1,7 @@
 src
 e2e
 node_modules
+bundles
 
 module
 !module/app/swangular-components

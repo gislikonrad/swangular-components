@@ -1,5 +1,4 @@
 import { CommonModule } from "@angular/common";
-import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, NO_ERRORS_SCHEMA } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
@@ -83,7 +82,7 @@ import { ModelSchemaComponent } from './model-schema/model-schema.component';
   ],
   imports: [
     CommonModule,
-    BrowserModule,
+    // BrowserModule,
     FormsModule,
     ReactiveFormsModule,
     HttpModule
