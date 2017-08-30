@@ -2,9 +2,9 @@ import { Injectable } from '@angular/core';
 
 @Injectable()
 export class ApiKeyService {    
-  name: string = 'apikey';
-  location: ApiKeyLocation = 'header';
-  apikey: string;
+  public name: string = 'apikey';
+  public location: ApiKeyLocation = 'header';
+  public apikey: string;
 }
 
 export type ApiKeyLocation = 'header'|'query';
