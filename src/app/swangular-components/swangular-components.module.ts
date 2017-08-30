@@ -27,7 +27,6 @@ import { OAuthService } from "./services/o-auth.service";
 import { DynamicRequestDispatcherService } from "./services/dynamic-request-dispatcher.service";
 import { RequestBuilderService } from "./services/request-builder.service";
 import { ApiKeyService } from "./services/api-key.service";
-import { ModelSchemaComponent } from './model-schema/model-schema.component';
 
 @NgModule({  entryComponents: [    
     FormInputComponent,
@@ -54,8 +53,7 @@ import { ModelSchemaComponent } from './model-schema/model-schema.component';
     MethodFormComponent,
     FormInputComponent,
     FormSelectComponent,
-    FormTextAreaComponent,
-    ModelSchemaComponent
+    FormTextAreaComponent    
     // TemplateForDirective,
     // ReplaceTemplateDirective
   ],
