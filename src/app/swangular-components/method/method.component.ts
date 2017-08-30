@@ -15,6 +15,8 @@ export class MethodComponent implements OnInit {
   defaultResponse: Response;
   otherResponses: { [id: string]: Response };
 
+  expanded: boolean = false;
+
   constructor() {}
 
   ngOnInit() {
