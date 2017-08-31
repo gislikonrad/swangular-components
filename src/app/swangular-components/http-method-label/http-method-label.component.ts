@@ -38,10 +38,11 @@ export class HttpMethodLabelComponent {
   }
 
   isPutOrPatch(): boolean {
-    return this.method != null && (this.method == RequestMethod.Put
-                        || this.method == RequestMethod.Patch
-                        || this.caseInsensitiveEquals(<string>this.method, 'put')
-                        || this.caseInsensitiveEquals(<string>this.method, 'patch'));
+    return this.method != null && 
+      (this.method == RequestMethod.Put ||
+       this.method == RequestMethod.Patch ||
+       this.caseInsensitiveEquals(<string>this.method, 'put') ||
+       this.caseInsensitiveEquals(<string>this.method, 'patch'));
   }
 
   isDelete(): boolean {
