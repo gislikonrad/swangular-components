@@ -1,4 +1,13 @@
 <div class="container">
-  <input [(ngModel)]="url">
+  <div class="row">
+    <div class="form-group col-md-8">
+      <label for="url">Swagger url</label>
+      <input type="text" class="form-control" id="url" placeholder="Swagger url" (blur)="loadUrl($event)" [value]="url">
+    </div>
+    <div class="form-group col-md-4">
+      <label for="apikey">Client id</label>
+      <input type="text" class="form-control" id="apikey" placeholder="Client id" (blur)="setApiKey($event)">
+    </div>
+  </div>
   <api-swagger [url]="url"></api-swagger>
 </div>

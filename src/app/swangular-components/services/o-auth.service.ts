@@ -2,12 +2,14 @@ import { Injectable } from '@angular/core';
 import { ErrorService } from "./error.service";
 import { guid } from './guid';
 import { ApiKeyService } from "./api-key.service";
+import * as _ from 'lodash';
 
 @Injectable()
 export class OAuthService {    private _callbackUrl: string;
     private _errorReported: boolean;
     private _guid: string;
     private _scopes: string[];
+    private _queryParameters: any = {};
     callbackReady: boolean = false;
 
     constructor(
@@ -19,17 +21,40 @@ export class OAuthService {    private _callbackUrl: string;
       localStorage['guid'] = this._guid;
     }
 
+    addQueryParameter(name: string, value: string) {
+      this._queryParameters[name] = value;
+    }
+
+    removeQueryParameter(name: string) {
+      delete this._queryParameters[name];
+    }
+
     generateSigninUrl(authorizationUrl: string, scopes: string[]): string {
       let parameters:string[] = [];
       this._scopes = scopes;
+      let defaults: any = {
+        redirect_uri: encodeURIComponent(this._callbackUrl),
+        response_type: encodeURIComponent('id_token token'),
+        scope: encodeURIComponent(scopes.join(' ')),
+        nonce: 'acm',
+        state: this._guid
+      };
       if(this._apiKeyService.apikey) {
-        parameters.push('client_id=' + this._apiKeyService.apikey);
+        defaults.client_id = this._apiKeyService.apikey;
+        // parameters.push('client_id=' + this._apiKeyService.apikey);
       }
-      parameters.push('redirect_uri=' + encodeURIComponent(this._callbackUrl));
-      parameters.push('response_type=id_token%20token');
-      parameters.push('scope=' + encodeURIComponent(scopes.join(' ')));
-      parameters.push('nonce=acm');
-      parameters.push('state=' + this._guid);
+
+      var query = _.extend({}, defaults, this._queryParameters);
+      console.log(query);
+
+      // parameters.push('redirect_uri=' + encodeURIComponent(this._callbackUrl));
+      // parameters.push('response_type=id_token%20token');
+      // parameters.push('scope=' + encodeURIComponent(scopes.join(' ')));
+      // parameters.push('nonce=acm');
+      // parameters.push('state=' + this._guid);
+      for(let name in query) {
+        parameters.push(`${name}=${query[name]}`)
+      }
       return this.combine(authorizationUrl, parameters);
     }
 
