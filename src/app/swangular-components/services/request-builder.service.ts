@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { InLocations, Parameter } from "swagger-schema-ts";
+import { InLocations, Parameter, Swagger } from "swagger-schema-ts";
 import { ResponseContentType, RequestMethod, Request, Headers } from "@angular/http";
 import { SwaggerService } from "./swagger.service";
 import { OAuthService } from "./o-auth.service";
@@ -14,10 +14,10 @@ export class RequestBuilderService {
     private _apiKeyService: ApiKeyService
   ) { }
 
-  generateRequest(url: string, method: string, parameters: any, parameterDefinitions: Parameter[]) : Request {
+  generateRequest(swagger: Swagger, url: string, method: string, parameters: any, parameterDefinitions: Parameter[]) : Request {
     let body: any;
     let query: string[] = [];
-    url = this.createAbsoluteUrl(url);
+    url = this.createAbsoluteUrl(swagger, url);
 
     if(parameters && parameterDefinitions) {
       for(let parameter of parameterDefinitions) {
@@ -86,9 +86,8 @@ export class RequestBuilderService {
     }
   }
 
-  private createAbsoluteUrl(url: string): string {
-    let swagger = this._swaggerService.snapshot;
-    let absolute = `${this.getScheme()}://${swagger.host}`;
+  private createAbsoluteUrl(swagger: Swagger, url: string): string {
+    let absolute = `${this.getScheme(swagger)}://${swagger.host}`;
     if(swagger.basePath) {
       absolute += swagger.basePath;
     }
@@ -96,8 +95,7 @@ export class RequestBuilderService {
     return absolute;
   }
 
-  private getScheme(): string {
-    let swagger = this._swaggerService.snapshot;
+  private getScheme(swagger: Swagger): string {
     if(swagger.schemes.indexOf('https') > -1) { // prefer https
       return 'https';
     }

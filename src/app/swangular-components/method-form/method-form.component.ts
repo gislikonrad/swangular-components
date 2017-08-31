@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Parameter } from "swagger-schema-ts";
+import { Parameter, Swagger } from "swagger-schema-ts";
 import { FormGroup, FormBuilder } from "@angular/forms";
 import { ErrorService } from "../services/error.service";
 import { RequestBuilderService } from "../services/request-builder.service";
@@ -15,6 +15,7 @@ export class MethodFormComponent implements OnInit {
   @Input() method: string;
   @Input() urlTemplate: string;
   @Input() consumes: string[] = [];
+  @Input() swagger: Swagger;
 
   requestForm: FormGroup;
   values: { [id: string]: any } = {}
@@ -50,7 +51,7 @@ export class MethodFormComponent implements OnInit {
       }
       return;
     }
-    let request = this._requestBuilder.generateRequest(this.urlTemplate, this.method, this.requestForm.value, this.parameters);
+    let request = this._requestBuilder.generateRequest(this.swagger, this.urlTemplate, this.method, this.requestForm.value, this.parameters);
     this._dynamicRequestDispatcher.dispatch(request);
   }
 }

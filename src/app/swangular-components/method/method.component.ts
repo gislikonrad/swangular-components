@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Operation, Response } from "swagger-schema-ts";
+import { Operation, Response, Swagger } from "swagger-schema-ts";
 
 @Component({
   selector: 'api-method',
@@ -10,6 +10,7 @@ export class MethodComponent implements OnInit {
   @Input() operation: Operation;
   @Input() method: string;
   @Input() urlTemplate: string;
+  @Input() swagger: Swagger;
 
   defaultResponseCode: string;
   defaultResponse: Response;

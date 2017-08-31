@@ -1,5 +1,5 @@
-import { Component, OnInit, OnDestroy, Input } from '@angular/core';
-import { SecuritySchemeTypes, SecurityScheme } from "swagger-schema-ts";
+import { Component, OnInit, OnDestroy, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { SecuritySchemeTypes, SecurityScheme, Swagger } from "swagger-schema-ts";
 import { SwaggerService } from "../services/swagger.service";
 import { OAuthService } from "../services/o-auth.service";
 
@@ -10,12 +10,13 @@ import { OAuthService } from "../services/o-auth.service";
 })
 export class AuthButtonComponent implements OnInit, OnDestroy {
   @Input() security: { [id: string]: string[] }[];
+  @Input() swagger: Swagger;
+
+  scopes: string[];
 
   private _authorizationUrl: string;
   private _deauthorizationUrl: string;
-  scopes: string[];
   private _sub: any;
-  private _securityDefinitions: { [id: string]: SecurityScheme };
 
   constructor(
     private _authService: OAuthService,
@@ -69,23 +70,29 @@ export class AuthButtonComponent implements OnInit, OnDestroy {
     return true;
   }
 
+  ngOnChanges(changes: SimpleChanges) {
+    if(changes.swagger && changes.swagger.currentValue) {
+      this.update();
+    }
+  }
+
   ngOnInit() {
-    this._sub = this._swaggerService.current.subscribe(swagger => {
-      this._securityDefinitions = swagger.securityDefinitions;
-      this.update.apply(this);
-    });
+    // this._sub = this._swaggerService.current.subscribe(swagger => {
+    //   this._securityDefinitions = swagger.securityDefinitions;
+    //   this.update.apply(this);
+    // });
   }
 
   ngOnDestroy() {
-    this._sub.unsubscribe();
+    // this._sub.unsubscribe();
   }
 
   private update() {
-    if(!this.security || !this._securityDefinitions) {
+    if(!this.security || !this.swagger.securityDefinitions) {
       return;
     }
-    for(let key in this._securityDefinitions) {
-      let definition = this._securityDefinitions[key];
+    for(let key in this.swagger.securityDefinitions) {
+      let definition = this.swagger.securityDefinitions[key];
       if(definition.type != SecuritySchemeTypes.oauth2) {
         continue;
       }

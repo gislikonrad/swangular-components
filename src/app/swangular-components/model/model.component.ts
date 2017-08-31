@@ -1,5 +1,5 @@
-import { Component, OnInit, OnDestroy, Input } from '@angular/core';
-import { Schema, Types } from "swagger-schema-ts";
+import { Component, OnInit, OnDestroy, Input, SimpleChanges } from '@angular/core';
+import { Schema, Types, Swagger } from "swagger-schema-ts";
 import { SwaggerService } from "../services/swagger.service";
 
 @Component({
@@ -9,8 +9,9 @@ import { SwaggerService } from "../services/swagger.service";
 })
 export class ModelComponent implements OnInit, OnDestroy {
   @Input() schema: Schema;
+  @Input() swagger: Swagger;
 
-  private _definitions: { [id: string]: Schema }
+  // private _definitions: { [id: string]: Schema }
   private _sub: any;
   refs: string[];
   showModelSchema: boolean = false;
@@ -18,17 +19,25 @@ export class ModelComponent implements OnInit, OnDestroy {
   constructor(private _service: SwaggerService) { }
 
   ngOnInit() {
-    this._sub = this._service.current.subscribe(swagger => {
-      if(!swagger) return;
-      this._definitions = swagger.definitions;
-      if(this.schema){
-        this.refs = this.getSchemaRefs(this.schema);
-      }
-    });
+    // this._sub = this._service.current.subscribe(swagger => {
+    //   if(!swagger) return;
+    //   this._definitions = swagger.definitions;
+    //   if(this.schema){
+    //     this.refs = this.getSchemaRefs(this.schema);
+    //   }
+    // });
   }
 
   ngOnDestroy(): void {
-    this._sub.unsubscribe();
+    // this._sub.unsubscribe();
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if(changes.swagger || changes.schema) {
+      if(this.schema && this.swagger) {
+        this.refs = this.getSchemaRefs(this.schema);
+      }
+    }
   }
 
   displayModelExample(schema: Schema): string {
@@ -50,14 +59,14 @@ export class ModelComponent implements OnInit, OnDestroy {
 
   getSchema($ref: string): Schema {
     let name = this.getSchemaDefinitionName($ref);
-    return this._definitions[name];
+    return this.getDefinitions()[name];
   }
 
   getSchemaAndName($ref: string): any {
     let name = this.getSchemaDefinitionName($ref);
     return {
       name: name,
-      schema: this._definitions[name]
+      schema: this.getDefinitions()[name]
     };
   }
 
@@ -89,7 +98,7 @@ export class ModelComponent implements OnInit, OnDestroy {
     if(schema.$ref && refs.indexOf(schema.$ref) == -1) {
       refs.push(schema.$ref);
       let name = this.getSchemaDefinitionName(schema.$ref);
-      schema = this._definitions[name];
+      schema = this.getDefinitions()[name]
     }
     if(schema.properties) {
       for(let key in schema.properties) {
@@ -102,13 +111,13 @@ export class ModelComponent implements OnInit, OnDestroy {
 
   private generateDisplayObject(schema: Schema): any {
     let $ref: string;
-    if(!schema) {
+    if(!schema || !this.swagger) {
       return '';
     }
     if(schema.$ref) {
       $ref = schema.$ref;
       let name = this.getSchemaDefinitionName(schema.$ref);
-      schema = this._definitions[name];
+      schema = this.getDefinitions()[name];
     }
     if(schema.type == Types.array) {
       if(schema.items) {
@@ -157,6 +166,11 @@ export class ModelComponent implements OnInit, OnDestroy {
       }
       return 'string';
     }
+  }
+
+  private getDefinitions(): { [id:string]: Schema } {
+    if(!this.swagger) return {};
+    return this.swagger.definitions
   }
 
 }
