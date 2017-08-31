@@ -1,12 +1,5 @@
-<div *ngIf="swagger" class="api-swagger">
-  <h2 *ngIf="showHeader" >{{swagger.info.title}} <small>on {{swagger.schemes | first}}://{{swagger.host + (swagger.basePath || '')}}</small></h2>
-  <p>{{swagger.info.description}}</p>
-  <div *ngFor="let pair of swagger.paths | keyValuePairs">
-    <h3>{{pair.key}}</h3>
-    <api-method *ngFor="let path of pair.value | keyValuePairs"
-      [operation]="path.value"
-      [method]="path.key"
-      [urlTemplate]="pair.key"></api-method>
-  </div>
+<div *ngIf="swagger">
+  <api-header [swagger]="swagger"></api-header>
+  <api-methods [swagger]="swagger"></api-methods>   
   <api-request-modal></api-request-modal>
 </div>

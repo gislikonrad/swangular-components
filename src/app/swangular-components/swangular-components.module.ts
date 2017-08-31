@@ -27,8 +27,11 @@ import { OAuthService } from "./services/o-auth.service";
 import { DynamicRequestDispatcherService } from "./services/dynamic-request-dispatcher.service";
 import { RequestBuilderService } from "./services/request-builder.service";
 import { ApiKeyService } from "./services/api-key.service";
+import { HeaderComponent } from './header/header.component';
+import { MethodsComponent } from './methods/methods.component';
 
-@NgModule({  entryComponents: [    
+@NgModule({  
+  entryComponents: [    
     FormInputComponent,
     FormSelectComponent,
     FormTextAreaComponent
@@ -53,9 +56,9 @@ import { ApiKeyService } from "./services/api-key.service";
     MethodFormComponent,
     FormInputComponent,
     FormSelectComponent,
-    FormTextAreaComponent    
-    // TemplateForDirective,
-    // ReplaceTemplateDirective
+    FormTextAreaComponent,
+    HeaderComponent,
+    MethodsComponent    
   ],
   exports: [
     SwaggerComponent, 
@@ -71,16 +74,14 @@ import { ApiKeyService } from "./services/api-key.service";
     ModelComponent,
     RequestModalComponent,
     MethodFormComponent,
+    HeaderComponent,
+    MethodsComponent,    
 
     FirstPipe, 
     KeyValuePairsPipe, 
-
-    // TemplateForDirective,
-    // ReplaceTemplateDirective
   ],
   imports: [
     CommonModule,
-    // BrowserModule,
     FormsModule,
     ReactiveFormsModule,
     HttpModule
@@ -93,7 +94,7 @@ export class SwangularComponentsModule {
   static forRoot() {
     return {
       ngModule: SwangularComponentsModule,
-      providers: [SwaggerService, ErrorService, OAuthService, DynamicRequestDispatcherService, RequestBuilderService, ApiKeyService/*, TemplateProviderService*/]
+      providers: [SwaggerService, ErrorService, OAuthService, DynamicRequestDispatcherService, RequestBuilderService, ApiKeyService]
     };
   }
 }
