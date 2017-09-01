@@ -9,5 +9,5 @@
       <input type="text" class="form-control" id="apikey" placeholder="Client id" (blur)="setApiKey($event)">
     </div>
   </div>
-  <api-swagger [url]="url"></api-swagger>
+  <api-swagger [url]="url" (swaggerLoaded)="swaggerLoaded($event)"></api-swagger>
 </div>

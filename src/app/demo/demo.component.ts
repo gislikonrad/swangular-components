@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { OAuthService, ApiKeyService } from "index";
+import { Swagger } from "swagger-schema-ts";
 
 @Component({
   selector: 'app-demo',
@@ -9,6 +10,8 @@ import { OAuthService, ApiKeyService } from "index";
 export class DemoComponent implements OnInit {
   url: string = 'http://petstore.swagger.io/v2/swagger.json';
   apikey: string = '';
+
+  swagger: Swagger;
 
   constructor(private _oauth: OAuthService, private _apikey: ApiKeyService) { 
     // _oauth.addQueryParameter('auth_source', 'customer');
@@ -24,5 +27,9 @@ export class DemoComponent implements OnInit {
   setApiKey($event: any) {
     let apikey = $event.srcElement.value;
     this._apikey.apikey = apikey;
+  }
+
+  swaggerLoaded($event: any) {
+    this.swagger = $event.currentValue;
   }
 }
