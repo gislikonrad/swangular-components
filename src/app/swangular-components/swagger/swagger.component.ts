@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, OnChanges, SimpleChanges, ContentChild, Output, EventEmitter } from '@angular/core';
 import { SwaggerService } from "../services/swagger.service";
 import { Swagger } from 'swagger-schema-ts';
+import { SwaggerLoadedEvent } from "../swagger-loaded-event";
 
 @Component({
   selector: 'api-swagger',
@@ -11,7 +12,7 @@ export class SwaggerComponent implements OnInit, OnChanges {
   @Input() url: string;
   @Input() showHeader: boolean = true; 
 
-  @Output() swaggerLoaded = new EventEmitter();
+  @Output() swaggerLoaded = new EventEmitter<SwaggerLoadedEvent>();
 
   swagger: Swagger;
 
