@@ -16,7 +16,7 @@ export class Info {
   description?: string;
   termsOfService?: string;
   contact?: Contact;
-  licence?: License;
+  license?: License;
   version: string;
 }
 
