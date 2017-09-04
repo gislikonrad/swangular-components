@@ -27,7 +27,7 @@ import { OAuthService } from "./services/o-auth.service";
 import { DynamicRequestDispatcherService } from "./services/dynamic-request-dispatcher.service";
 import { RequestBuilderService } from "./services/request-builder.service";
 import { ApiKeyService } from "./services/api-key.service";
-import { HeaderComponent } from './header/header.component';
+import { TitleComponent } from './title/title.component';
 import { MethodsComponent } from './methods/methods.component';
 
 @NgModule({  
@@ -57,7 +57,7 @@ import { MethodsComponent } from './methods/methods.component';
     FormInputComponent,
     FormSelectComponent,
     FormTextAreaComponent,
-    HeaderComponent,
+    TitleComponent,
     MethodsComponent    
   ],
   exports: [
@@ -74,7 +74,7 @@ import { MethodsComponent } from './methods/methods.component';
     ModelComponent,
     RequestModalComponent,
     MethodFormComponent,
-    HeaderComponent,
+    TitleComponent,
     MethodsComponent,    
 
     FirstPipe, 
