@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Swagger } from "swagger-schema-ts/dist";
+import { Swagger } from "swagger-schema-ts";
 
 @Component({
   selector: 'api-methods',
