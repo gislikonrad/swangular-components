@@ -1,5 +1,5 @@
- <button type="button" class="btn btn-primary" *ngIf="canSignIn()" (click)="startSignIn()"><span class="glyphicon glyphicon-log-in" aria-hidden="true"></span> Sign in</button>
-  <button type="button" class="btn btn-danger" *ngIf="canSignOut()" (click)="startSignOut()"><span class="glyphicon glyphicon-log-out" aria-hidden="true"></span> Sign out</button>
+ <button type="button" class="btn btn-primary" *ngIf="canSignIn()" (click)="startSignIn()"><span class="glyphicon glyphicon-log-in" aria-hidden="true"></span> Get token</button>
+  <button type="button" class="btn btn-danger" *ngIf="canSignOut()" (click)="startSignOut()"><span class="glyphicon glyphicon-log-out" aria-hidden="true"></span> Clear token</button>
   <button type="button" class="btn btn-danger" *ngIf="isSignedIn() && !canSignOut()" (click)="clearToken()"><span class="glyphicon glyphicon-log-out" aria-hidden="true"></span> Clear token</button>
   <div *ngIf="scopes">
     <h4>Scopes</h4>
