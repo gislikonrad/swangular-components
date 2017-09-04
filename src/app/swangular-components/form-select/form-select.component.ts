@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { IApiMethodFormComponent } from "../method-form-control/method-form-control.component";
-import { Types, Parameter } from "swagger-schema-ts";
+import { Type, Parameter } from "swagger-schema-ts";
 import { FormGroup, FormControl, ValidatorFn } from "@angular/forms";
 
 @Component({
@@ -27,7 +27,7 @@ export class FormSelectComponent implements OnInit, IApiMethodFormComponent {
     if(this.parameter.enum) {
       return this.parameter.enum;
     }
-    if(this.parameter.type == Types.boolean) {
+    if(this.parameter.type == Type.boolean) {
       return [ 'false', 'true' ];
     }
     return [];

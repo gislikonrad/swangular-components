@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { InLocations, Parameter, Swagger } from "swagger-schema-ts";
+import { In, Parameter, Swagger } from "swagger-schema-ts";
 import { ResponseContentType, RequestMethod, Request, Headers } from "@angular/http";
 import { SwaggerService } from "./swagger.service";
 import { OAuthService } from "./o-auth.service";
@@ -25,13 +25,13 @@ export class RequestBuilderService {
         if(value == null || value == '') {
           continue;
         }
-        if(parameter.in == InLocations.path){
+        if(parameter.in == In.path){
           url = this.addParameterToUrlPath(url, parameter.name, parameters[parameter.name])
         }
-        if(parameter.in == InLocations.query) {
+        if(parameter.in == In.query) {
           query.push(`${parameter.name}=${parameters[parameter.name]}`);
         }
-        if(parameter.in == InLocations.body) {
+        if(parameter.in == In.body) {
           body = this.parseBody(parameters[parameter.name]);
         }
       }

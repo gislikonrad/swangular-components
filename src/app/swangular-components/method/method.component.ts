@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Operation, Response, Swagger } from "swagger-schema-ts";
+import { Operation, Response, Swagger, Reference } from "swagger-schema-ts";
 
 @Component({
   selector: 'api-method',
@@ -22,7 +22,7 @@ export class MethodComponent implements OnInit {
 
   ngOnInit() {
     this.defaultResponseCode = this.getDefaultResponseCode();
-    this.defaultResponse = this.operation.responses[this.defaultResponseCode];
+    this.defaultResponse = this.getResponse(this.operation.responses[this.defaultResponseCode]);
     this.otherResponses = this.getOtherResponses();
   }
 
@@ -53,7 +53,7 @@ export class MethodComponent implements OnInit {
         if(key == code) {
           continue;
         }
-        responses[key] = this.operation.responses[key];
+        responses[key] = this.getResponse(this.operation.responses[key]);
     }
     return responses;
   }
@@ -68,4 +68,9 @@ export class MethodComponent implements OnInit {
     return code;
   }
 
+  private getResponse(response: Response | Reference): Response {
+    if(response instanceof Response) return response;
+    // TODO: Get Response reference
+    return null;
+  }
 }

@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy, Input, OnChanges, SimpleChanges } from '@angular/core';
-import { SecuritySchemeTypes, SecurityScheme, Swagger } from "swagger-schema-ts";
+import { SecuritySchemeType, SecurityScheme, Swagger } from "swagger-schema-ts";
 import { SwaggerService } from "../services/swagger.service";
 import { OAuthService } from "../services/o-auth.service";
 
@@ -93,7 +93,7 @@ export class AuthButtonComponent implements OnInit, OnDestroy {
     }
     for(let key in this.swagger.securityDefinitions) {
       let definition = this.swagger.securityDefinitions[key];
-      if(definition.type != SecuritySchemeTypes.oauth2) {
+      if(definition.type != SecuritySchemeType.oauth2) {
         continue;
       }
       for(let index in this.security) {

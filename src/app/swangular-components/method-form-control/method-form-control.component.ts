@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, ComponentRef, ComponentFactoryResolver, ViewContainerRef, ComponentFactory, ViewChild, ElementRef, OnDestroy } from '@angular/core';
 import { FormGroup, ValidatorFn, Validators, FormControl } from "@angular/forms";
-import { Parameter, Types } from "swagger-schema-ts";
+import { Parameter, Type } from "swagger-schema-ts";
 import { FormInputComponent } from "../form-input/form-input.component";
 import { FormSelectComponent } from "../form-select/form-select.component";
 import { FormTextAreaComponent } from "../form-text-area/form-text-area.component";
@@ -29,7 +29,7 @@ export class MethodFormControlComponent implements OnInit, OnDestroy {
     if(this.parameter.schema) {
       factory = this._componentFactoryResolver.resolveComponentFactory(FormTextAreaComponent);
     }
-    else if(this.parameter.type == Types.string && this.parameter.enum || this.parameter.type == Types.boolean) {
+    else if(this.parameter.type == Type.string && this.parameter.enum || this.parameter.type == Type.boolean) {
       factory = this._componentFactoryResolver.resolveComponentFactory(FormSelectComponent);
     }
     else {

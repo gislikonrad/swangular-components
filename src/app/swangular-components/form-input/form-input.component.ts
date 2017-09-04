@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { IApiMethodFormComponent } from "../method-form-control/method-form-control.component";
 import { AbstractControl, FormGroup, ValidatorFn, Validators } from "@angular/forms";
-import { Parameter, Types } from "swagger-schema-ts";
+import { Parameter, Type } from "swagger-schema-ts";
 
 @Component({
   selector: 'api-form-input',
@@ -35,7 +35,7 @@ export class FormInputComponent implements OnInit, IApiMethodFormComponent {
   }
 
   ngOnInit() {
-    if(this.parameter.type == Types.number || this.parameter.type == Types.integer) {
+    if(this.parameter.type == Type.number || this.parameter.type == Type.integer) {
       this.type = 'number';
     }
     else {

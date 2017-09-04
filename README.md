@@ -86,3 +86,6 @@ Any errors reported into this service get put into the error panel.
 
 ### ApiKeyService
 Provide an api key to be used to call services that require an api key. This api key will also be used as the clientId for OAuth2 requests.
+
+### OAuthService
+Provide an api key to be used to call services that require an api key. This api key will also be used as the clientId for OAuth2 requests.

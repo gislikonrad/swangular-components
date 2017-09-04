@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy, Input, SimpleChanges } from '@angular/core';
-import { Schema, Types, Swagger } from "swagger-schema-ts";
+import { Schema, Type, Swagger } from "swagger-schema-ts";
 import { SwaggerService } from "../services/swagger.service";
 
 @Component({
@@ -47,10 +47,10 @@ export class ModelComponent implements OnInit, OnDestroy {
 
   getPropertyTypeName(schema: Schema): string {
     if(schema.type) {
-      if(schema.type == Types.array) {
+      if(schema.type == Type.array) {
         return `Array[${this.getPropertyTypeName(schema.items)}]`;
       }
-      return schema.type;
+      return schema.type.toString();
     }
     if(schema.$ref) {
       return this.getSchemaDefinitionName(schema.$ref);
@@ -90,7 +90,7 @@ export class ModelComponent implements OnInit, OnDestroy {
     if(!refs) {
       refs = [];
     }
-    if(schema.type == Types.array) {
+    if(schema.type == Type.array) {
       if(schema.items) {
         return this.getSchemaRefs(schema.items, refs);
       }
@@ -119,7 +119,7 @@ export class ModelComponent implements OnInit, OnDestroy {
       let name = this.getSchemaDefinitionName(schema.$ref);
       schema = this.getDefinitions()[name];
     }
-    if(schema.type == Types.array) {
+    if(schema.type == Type.array) {
       if(schema.items) {
         return [this.generateDisplayObject(schema.items)];
       }
@@ -127,7 +127,7 @@ export class ModelComponent implements OnInit, OnDestroy {
         return [];
       }
     }
-    if(schema.type != Types.object) {
+    if(schema.type != Type.object) {
       return this.getDefaultValue(schema).toString();
     }
     let model: any = {};
@@ -144,7 +144,7 @@ export class ModelComponent implements OnInit, OnDestroy {
   }
 
   private getDefaultValue(schema: Schema): any {
-    if(schema.type && schema.type == Types.array) {
+    if(schema.type && schema.type == Type.array) {
       return [this.getDefaultValue(schema.items)];
     }
 
@@ -152,15 +152,15 @@ export class ModelComponent implements OnInit, OnDestroy {
       return this.generateDisplayObject(schema);
     }
 
-    if(schema.type == Types.number || schema.type == Types.integer) {
+    if(schema.type == Type.number || schema.type == Type.integer) {
       return schema.minimum || 0;
     }
 
-    if(schema.type == Types.boolean) {
+    if(schema.type == Type.boolean) {
       return false;
     }
 
-    if(schema.type == Types.string) {
+    if(schema.type == Type.string) {
       if(schema.enum) {
         return schema.enum[0];
       }
