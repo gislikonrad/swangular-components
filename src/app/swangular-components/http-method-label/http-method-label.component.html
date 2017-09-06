@@ -1,0 +1,2 @@
+<span class="label text-uppercase"
+  [ngClass]="{ 'label-info': isGet(), 'label-success': isPost(), 'label-warning': isPutOrPatch(), 'label-danger': isDelete(), 'label-default': isOther() }">{{getMethodName()}}</span>

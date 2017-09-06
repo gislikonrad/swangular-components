@@ -1,0 +1,22 @@
+<div class="container">
+  <h1>
+    swangular
+  </h1>
+</div>
+<nav class="navbar navbar-inverse">
+  <div class="container">
+    <ul class="nav navbar-nav">
+      <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"><a [routerLink]="['/']">Home</a></li>
+      <!-- <li><a [routerLink]="['/']">Basics</a></li>  -->
+      <li routerLinkActive="active"><a [routerLink]="['demo']">Demo</a></li>
+      <!-- <li><a [routerLink]="['/']">About</a></li>  -->
+    </ul>
+  </div>
+
+</nav>
+<div class="container">
+  <api-error-panel></api-error-panel>
+</div>
+<api-auth-callback></api-auth-callback>
+<router-outlet></router-outlet>
+

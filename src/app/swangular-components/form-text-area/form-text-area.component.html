@@ -1,0 +1,3 @@
+<div [formGroup]="form" class="form-group" [class.has-error]="form.controls[parameter.name].invalid && !form.controls[parameter.name].pristine">
+  <textarea [formControlName]="parameter.name" [name]="parameter.name" class="form-control"></textarea>
+</div>

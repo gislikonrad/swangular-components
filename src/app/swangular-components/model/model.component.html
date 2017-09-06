@@ -1,0 +1,21 @@
+<div class="btn-group">
+  <button type="button" class="btn btn-default btn-xs" (click)="showModelSchema=false" [class.active]="!showModelSchema">Model</button>
+  <button type="button" class="btn btn-default btn-xs" (click)="showModelSchema=true" [class.active]="showModelSchema">Model Schema</button>
+</div>
+<pre *ngIf="!showModelSchema">{{ displayModelExample(schema) }}</pre>
+<!-- <api-model-schema *ngIf="showModelSchema"></api-model-schema> -->
+<!-- Create seperate component for this -->
+<div *ngIf="showModelSchema">
+  <p *ngFor="let ref of refs" #s="var" [var]="getSchemaAndName(ref)">
+    <small>
+      <strong>{{s.var.name}} {{ '{' }}</strong><br />
+        <span *ngFor="let p of (s.var.schema.properties || {}) | keyValuePairs">
+          <span>
+          &nbsp;&nbsp;
+          <strong>{{p.key}}</strong>
+          ({{getPropertyTypeName(p.value)}}<span *ngIf="!isRequired(s.var.schema, p.key)">, optional</span>)</span> <span *ngIf="p.value.enum">= {{p.value.enum | json}} </span><br />
+        </span>
+      <strong>{{ '}' }}</strong>
+    </small>
+  </p>
+</div>

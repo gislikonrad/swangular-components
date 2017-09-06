@@ -1,0 +1,16 @@
+ <button type="button" class="btn btn-primary" *ngIf="canSignIn()" (click)="startSignIn()"><span class="glyphicon glyphicon-log-in" aria-hidden="true"></span> Get token</button>
+  <button type="button" class="btn btn-danger" *ngIf="canSignOut()" (click)="startSignOut()"><span class="glyphicon glyphicon-log-out" aria-hidden="true"></span> Clear token</button>
+  <button type="button" class="btn btn-danger" *ngIf="isSignedIn() && !canSignOut()" (click)="clearToken()"><span class="glyphicon glyphicon-log-out" aria-hidden="true"></span> Clear token</button>
+  <div *ngIf="scopes">
+    <h4>Scopes</h4>
+    <div *ngFor="let scope of scopes">
+      <span class="glyphicon"
+            [class.glyphicon-record]="!isSignedIn()"
+            [class.glyphicon-ok-circle]="hasScope(scope)"
+            [class.text-success]="hasScope(scope)"
+            [class.glyphicon-remove-circle]="isSignedIn() && !hasScope(scope)"
+            [class.text-danger]="!hasScope(scope)"
+            aria-hidden="true"></span>
+      {{scope}}
+    </div>
+  </div>
