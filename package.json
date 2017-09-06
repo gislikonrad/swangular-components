@@ -1,6 +1,6 @@
 {
   "name": "swangular-components",
-  "version": "1.0.0-RC7",
+  "version": "1.0.0",
   "license": "Unlicense",
   "scripts": {
     "ng": "ng",

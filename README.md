@@ -22,6 +22,12 @@ swangular-components is a component library for angular 2.0.0 to render swagger 
 npm install swangular-components --save
 ```
 
+### Requirements
+- typescript 2.4+
+  - for string enums
+- angular/cli 2.3+
+  - The way older version build with external modules fails with lower versions
+
 ### Import in NgModule
 ```ts
   import { NgModule }       from '@angular/core';
@@ -65,13 +71,13 @@ api-swagger is the root of the tree. If you use this element, it basically injec
 ### api-method
 api-method is for showing what a url-verb combo does, i.e GET - /values
 ```html
-<api-method [operation]="operationObject" verb="get" urlTemplate="/values/{id}"></api-method>
+<api-method [operation]="operationObject" [swagger]="swagger" verb="get" urlTemplate="/values/{id}"></api-method>
 ```
 
 ### api-model
 api-model is for showing the schema and example of a request or response model
 ```html
-<api-model [schema]="schemaObject"></api-swagger>
+<api-model [schema]="schemaObject" [swagger]="swagger"></api-swagger>
 ```
 
 ## Providers
