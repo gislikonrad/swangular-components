@@ -29,6 +29,7 @@ import { RequestBuilderService } from "./services/request-builder.service";
 import { ApiKeyService } from "./services/api-key.service";
 import { TitleComponent } from './title/title.component';
 import { MethodsComponent } from './methods/methods.component';
+import { JsonReferenceService } from "./services/json-reference.service";
 
 @NgModule({  
   entryComponents: [    
@@ -86,7 +87,7 @@ import { MethodsComponent } from './methods/methods.component';
     ReactiveFormsModule,
     HttpModule
   ],
-  providers: [SwaggerService, ErrorService, OAuthService, DynamicRequestDispatcherService, RequestBuilderService, ApiKeyService],
+  providers: [SwaggerService, ErrorService, OAuthService, DynamicRequestDispatcherService, RequestBuilderService, ApiKeyService, JsonReferenceService],
   bootstrap: [],
   schemas: [ NO_ERRORS_SCHEMA ]
 })

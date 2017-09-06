@@ -26,7 +26,7 @@
           <td><p class="form-control-static">{{parameter.in}}</p></td>
           <td *ngIf="parameter.type"><p class="form-control-static">{{parameter.type}}</p></td>
           <td *ngIf="parameter.schema">
-            <api-model [schema]="parameter.schema"></api-model>
+            <api-model [schema]="parameter.schema" [swagger]="swagger"></api-model>
           </td>
         </tr>
       </tbody>

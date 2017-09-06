@@ -19,6 +19,7 @@ export class ModelComponent implements OnInit, OnDestroy {
   constructor(private _service: SwaggerService) { }
 
   ngOnInit() {
+    
     // this._sub = this._service.current.subscribe(swagger => {
     //   if(!swagger) return;
     //   this._definitions = swagger.definitions;

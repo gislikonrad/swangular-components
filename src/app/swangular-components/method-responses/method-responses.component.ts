@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Response } from "swagger-schema-ts";
+import { Response, Swagger } from "swagger-schema-ts";
 
 @Component({
   selector: 'api-method-responses',
@@ -8,6 +8,7 @@ import { Response } from "swagger-schema-ts";
 })
 export class MethodResponsesComponent implements OnInit {
   @Input() responses: { [id: string] : Response };
+  @Input() swagger: Swagger;
 
   constructor() { }
 

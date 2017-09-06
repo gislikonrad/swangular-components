@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Operation, Response, Swagger, Reference } from "swagger-schema-ts";
+import { JsonReferenceService } from "../services/json-reference.service";
 
 @Component({
   selector: 'api-method',
@@ -18,7 +19,7 @@ export class MethodComponent implements OnInit {
 
   expanded: boolean = false;
 
-  constructor() {}
+  constructor(private _jsonReference: JsonReferenceService) {}
 
   ngOnInit() {
     this.defaultResponseCode = this.getDefaultResponseCode();
@@ -69,8 +70,12 @@ export class MethodComponent implements OnInit {
   }
 
   private getResponse(response: Response | Reference): Response {
-    if(response instanceof Response) return response;
-    // TODO: Get Response reference
-    return null;
+    let reference = <Reference>response;
+    if(reference.$ref) return this.getResponseByReference(reference.$ref);
+    return <Response>response;
+  }
+
+  private getResponseByReference($ref: string): Response {
+    return this._jsonReference.dereference<Response>(this.swagger, $ref);
   }
 }
