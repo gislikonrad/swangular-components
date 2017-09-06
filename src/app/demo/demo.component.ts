@@ -8,7 +8,7 @@ import { Swagger } from "swagger-schema-ts";
   styleUrls: ['./demo.component.css']
 })
 export class DemoComponent implements OnInit {
-  url: string = 'https://apidev.landsbankinn.is/Framework/TokenExchange/v2/swagger/docs/json';// 'http://petstore.swagger.io/v2/swagger.json';
+  url: string = 'http://petstore.swagger.io/v2/swagger.json';
   apikey: string = '';
 
   swagger: Swagger;
