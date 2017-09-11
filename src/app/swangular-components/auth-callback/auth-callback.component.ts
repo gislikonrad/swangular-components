@@ -29,6 +29,10 @@ export class AuthCallbackComponent implements OnInit {
     });
   }
 
+  get state(): string {
+    return this._authService.oauthState;
+  }
+
   ngOnInit() {
     this.init.emit({ isCallback: this.isCallback });
     if(this.isCallback) {
@@ -41,11 +45,12 @@ export class AuthCallbackComponent implements OnInit {
         let search = location.search.substring(1);
         response = this.parse(search);
       }
-      console.log(response);
       if(response && window.opener) {
         let swangular = (<AuthCallbackComponent>window.opener['swangular']);
-        swangular.oauthcallback(response);
-        window.close();
+        if(swangular.state == response.state) {
+          swangular.oauthcallback(response);
+          window.close();
+        }
       }
     }
   }

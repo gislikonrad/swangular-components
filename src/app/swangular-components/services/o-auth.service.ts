@@ -45,7 +45,6 @@ export class OAuthService {    private _callbackUrl: string;
       }
 
       var query = _.extend({}, defaults, this._queryParameters);
-      console.log(query);
 
       // parameters.push('redirect_uri=' + encodeURIComponent(this._callbackUrl));
       // parameters.push('response_type=id_token%20token');
@@ -143,6 +142,10 @@ export class OAuthService {    private _callbackUrl: string;
       else {
         localStorage.removeItem(this._guid);
       }
+    }
+
+    get oauthState(): string {
+      return this._guid;
     }
 
     private combine(url : string, parameters : string[]) : string {
