@@ -25,7 +25,7 @@ npm install swangular-components --save
 ### Requirements
 - typescript 2.4+
   - for string enums
-- angular/cli 2.3+
+- angular/cli 1.3+
   - The way older version build with external modules fails with lower versions
 
 ### Import in NgModule
