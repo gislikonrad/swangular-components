@@ -1,41 +1,29 @@
 import { Component, OnInit, OnDestroy, Input, SimpleChanges } from '@angular/core';
-import { Schema, Type, Swagger } from "swagger-schema-ts";
-import { SwaggerService } from "../services/swagger.service";
+import { DocumentService } from "../services/document.service";
+import { OpenAPIV2, OpenAPIV3, OpenAPIV3_1 } from "openapi-types";
+type Document = OpenAPIV2.Document | OpenAPIV3.Document | OpenAPIV3_1.Document;
+type Schema = OpenAPIV2.SchemaObject | OpenAPIV3.SchemaObject | OpenAPIV3_1.SchemaObject;
 
 @Component({
   selector: 'api-model',
   templateUrl: './model.component.html',
   styleUrls: ['./model.component.css']
 })
-export class ModelComponent implements OnInit, OnDestroy {
+export class ModelComponent {
   @Input() schema: Schema;
-  @Input() swagger: Swagger;
+  @Input() document: Document;
+  @Input() contentType?: string;
 
   // private _definitions: { [id: string]: Schema }
   private _sub: any;
   refs: string[];
   showModelSchema: boolean = false;
 
-  constructor(private _service: SwaggerService) { }
-
-  ngOnInit() {
-    
-    // this._sub = this._service.current.subscribe(swagger => {
-    //   if(!swagger) return;
-    //   this._definitions = swagger.definitions;
-    //   if(this.schema){
-    //     this.refs = this.getSchemaRefs(this.schema);
-    //   }
-    // });
-  }
-
-  ngOnDestroy(): void {
-    // this._sub.unsubscribe();
-  }
+  constructor(private _service: DocumentService) { }
 
   ngOnChanges(changes: SimpleChanges) {
-    if(changes.swagger || changes.schema) {
-      if(this.schema && this.swagger) {
+    if(changes.document || changes.schema) {
+      if(this.schema && this.document) {
         this.refs = this.getSchemaRefs(this.schema);
       }
     }
@@ -48,26 +36,26 @@ export class ModelComponent implements OnInit, OnDestroy {
 
   getPropertyTypeName(schema: Schema): string {
     if(schema.type) {
-      if(schema.type == Type.array) {
+      if(schema.type == 'array' && 'items' in schema) 
         return `Array[${this.getPropertyTypeName(schema.items)}]`;
-      }
+      
       return schema.type.toString();
     }
-    if(schema.$ref) {
+    if('$ref' in schema) {
       return this.getSchemaDefinitionName(schema.$ref);
     }
   }
 
   getSchema($ref: string): Schema {
     let name = this.getSchemaDefinitionName($ref);
-    return this.getDefinitions()[name];
+    return this.getSchemas()[name];
   }
 
   getSchemaAndName($ref: string): any {
     let name = this.getSchemaDefinitionName($ref);
     return {
       name: name,
-      schema: this.getDefinitions()[name]
+      schema: this.getSchemas()[name]
     };
   }
 
@@ -81,27 +69,36 @@ export class ModelComponent implements OnInit, OnDestroy {
   }
 
   isRequired(schema: Schema, name: string): boolean {
-    if(!schema.required) {
-      return false;
+    if('required' in schema){
+      if(!schema.required) {
+        return false;
+      }
+      return schema.required.indexOf(name) > -1;
     }
-    return schema.required.indexOf(name) > -1;
+    if('properties' in schema) {
+      let property = schema.properties[name];
+      if(property && 'nullable' in property) 
+        return !property.nullable;
+    }
+    return true;
   }
 
   private getSchemaRefs(schema: Schema, refs?: string[]): string[] {
     if(!refs) {
       refs = [];
     }
-    if(schema.type == Type.array) {
-      if(schema.items) {
-        return this.getSchemaRefs(schema.items, refs);
+    if('type' in schema) {
+      if(schema.type == 'array' && 'items' in schema) {
+        let items: Schema = schema.items;
+        return this.getSchemaRefs(items, refs);
       }
     }
-    if(schema.$ref && refs.indexOf(schema.$ref) == -1) {
+    if('$ref' in schema && refs.indexOf(schema.$ref) == -1) {
       refs.push(schema.$ref);
       let name = this.getSchemaDefinitionName(schema.$ref);
-      schema = this.getDefinitions()[name]
+      schema = this.getSchemas()[name]
     }
-    if(schema.properties) {
+    if('properties' in schema) {
       for(let key in schema.properties) {
         let s = schema.properties[key];
         this.getSchemaRefs(s, refs);
@@ -112,29 +109,31 @@ export class ModelComponent implements OnInit, OnDestroy {
 
   private generateDisplayObject(schema: Schema): any {
     let $ref: string;
-    if(!schema || !this.swagger) {
+    if(!schema || !this.document) {
       return '';
     }
-    if(schema.$ref) {
+    if('$ref' in schema) {
       $ref = schema.$ref;
       let name = this.getSchemaDefinitionName(schema.$ref);
-      schema = this.getDefinitions()[name];
+      schema = this.getSchemas()[name];
     }
-    if(schema.type == Type.array) {
-      if(schema.items) {
-        return [this.generateDisplayObject(schema.items)];
+    if('type' in schema) {
+      if(schema.type == 'array') {
+        if(schema.items) {
+          return [this.generateDisplayObject(schema.items)];
+        }
+        else {
+          return [];
+        }
       }
-      else {
-        return [];
+      if(schema.type != 'object') {
+        return this.getDefaultValue(schema).toString();
       }
-    }
-    if(schema.type != Type.object) {
-      return this.getDefaultValue(schema).toString();
     }
     let model: any = {};
     for(let name in schema.properties) {
       let property = schema.properties[name];
-      if(property.$ref && property.$ref == $ref) {
+      if('$ref' in property && property.$ref == $ref) {
         model[name] = {};
       }
       else {
@@ -145,23 +144,23 @@ export class ModelComponent implements OnInit, OnDestroy {
   }
 
   private getDefaultValue(schema: Schema): any {
-    if(schema.type && schema.type == Type.array) {
+    if(schema.type && schema.type == 'array') {
       return [this.getDefaultValue(schema.items)];
     }
 
-    if(schema.$ref) {
+    if('$ref' in schema) {
       return this.generateDisplayObject(schema);
     }
 
-    if(schema.type == Type.number || schema.type == Type.integer) {
+    if(schema.type == 'number' || schema.type == 'integer') {
       return schema.minimum || 0;
     }
 
-    if(schema.type == Type.boolean) {
+    if(schema.type == 'boolean') {
       return false;
     }
 
-    if(schema.type == Type.string) {
+    if(schema.type == 'string') {
       if(schema.enum) {
         return schema.enum[0];
       }
@@ -169,9 +168,16 @@ export class ModelComponent implements OnInit, OnDestroy {
     }
   }
 
-  private getDefinitions(): { [id:string]: Schema } {
-    if(!this.swagger) return {};
-    return this.swagger.definitions
+  private getSchemas(): { [id:string]: Schema } {
+    if(!this.document) return {};
+    if('definitions' in this.document) {
+      return this.document.definitions;
+    }
+
+    if('components' in this.document && 'schemas' in this.document.components) {
+      return this.document.components.schemas;
+    }
+    throw new Error("Swagger does not contain definitions");
   }
 
 }

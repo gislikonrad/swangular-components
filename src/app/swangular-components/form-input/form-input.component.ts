@@ -1,7 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { IApiMethodFormComponent } from "../method-form-control/method-form-control.component";
 import { AbstractControl, FormGroup, ValidatorFn, Validators } from "@angular/forms";
-import { Parameter, Type } from "swagger-schema-ts";
+import { OpenAPIV2, OpenAPIV3, OpenAPIV3_1 } from "openapi-types";
+type Parameter = OpenAPIV2.Parameter | OpenAPIV3.ParameterObject | OpenAPIV3_1.ParameterObject;
 
 @Component({
   selector: 'api-form-input',
@@ -16,26 +17,26 @@ export class FormInputComponent implements OnInit, IApiMethodFormComponent {
 
   createValidators(): ValidatorFn[] {
     let validators: ValidatorFn[] = [];
-    if(this.isPresent(this.parameter.minLength)) {
+    if('minLength' in this.parameter) {
       validators.push(Validators.minLength(this.parameter.minLength));
     }
-    if(this.isPresent(this.parameter.maxLength)) {
+    if('maxLength' in this.parameter) {
       validators.push(Validators.maxLength(this.parameter.maxLength));
     }
-    if(this.isPresent(this.parameter.maximum)) {
+    if('maximum' in this.parameter) {
       validators.push(this.createMaxValueValidator(this.parameter.maximum, this.parameter.exclusiveMaximum));
     }
-    if(this.isPresent(this.parameter.minimum)) {
+    if('minimum' in this.parameter) {
       validators.push(this.createMinValueValidator(this.parameter.minimum, this.parameter.exclusiveMinimum));
     }
-    if(this.isPresent(this.parameter.pattern)) {
+    if('pattern' in this.parameter) {
       validators.push(Validators.pattern(this.parameter.pattern));
     }
     return validators;
   }
 
   ngOnInit() {
-    if(this.parameter.type == Type.number || this.parameter.type == Type.integer) {
+    if('type' in this.parameter && (this.parameter.type == 'number' || this.parameter.type == 'integer')) {
       this.type = 'number';
     }
     else {

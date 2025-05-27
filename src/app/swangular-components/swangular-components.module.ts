@@ -16,7 +16,7 @@ import { MethodResponseHeadersComponent } from "./method-response-headers/method
 import { MethodResponsesComponent } from "./method-responses/method-responses.component";
 import { ModelComponent } from "./model/model.component";
 import { RequestModalComponent } from "./request-modal/request-modal.component";
-import { SwaggerService } from "./services/swagger.service";
+import { DocumentService } from "./services/document.service";
 import { VarDirective } from './directives/var.directive';
 import { ErrorService } from "./services/error.service";
 import { MethodFormComponent } from './method-form/method-form.component';
@@ -87,7 +87,7 @@ import { JsonReferenceService } from "./services/json-reference.service";
     ReactiveFormsModule,
     HttpModule
   ],
-  providers: [SwaggerService, ErrorService, OAuthService, DynamicRequestDispatcherService, RequestBuilderService, ApiKeyService, JsonReferenceService],
+  providers: [DocumentService, ErrorService, OAuthService, DynamicRequestDispatcherService, RequestBuilderService, ApiKeyService, JsonReferenceService],
   bootstrap: [],
   schemas: [ NO_ERRORS_SCHEMA ]
 })
@@ -95,7 +95,7 @@ export class SwangularComponentsModule {
   static forRoot() {
     return {
       ngModule: SwangularComponentsModule,
-      providers: [SwaggerService, ErrorService, OAuthService, DynamicRequestDispatcherService, RequestBuilderService, ApiKeyService]
+      providers: [DocumentService, ErrorService, OAuthService, DynamicRequestDispatcherService, RequestBuilderService, ApiKeyService]
     };
   }
 }

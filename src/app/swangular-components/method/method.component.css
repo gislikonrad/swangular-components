@@ -3,3 +3,12 @@
 .panel-success .panel-body, .panel-success .list-group-item { background-color: #f8fff1 }
 .panel-warning .panel-body, .panel-warning .list-group-item { background-color: #fffff0 }
 .panel-danger .panel-body, .panel-danger .list-group-item { background-color: #fff8f8 }
+.truncate {
+    width: 50%;;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.pull-right {
+    text-align: right;
+}

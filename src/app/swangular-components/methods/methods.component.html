@@ -1,7 +1,7 @@
-<div *ngFor="let pair of swagger.paths | keyValuePairs">
+<div *ngFor="let pair of document.paths | keyValuePairs">
   <h3>{{pair.key}}</h3>
   <api-method *ngFor="let path of pair.value | keyValuePairs"
-    [swagger]="swagger"
+    [document]="document"
     [operation]="path.value"
     [method]="path.key"
     [urlTemplate]="pair.key"></api-method>

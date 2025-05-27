@@ -1,9 +1,11 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Parameter, Swagger } from "swagger-schema-ts";
 import { FormGroup, FormBuilder } from "@angular/forms";
 import { ErrorService } from "../services/error.service";
 import { RequestBuilderService } from "../services/request-builder.service";
 import { DynamicRequestDispatcherService } from "../services/dynamic-request-dispatcher.service";
+import { OpenAPIV2, OpenAPIV3, OpenAPIV3_1 } from "openapi-types";
+type Document = OpenAPIV2.Document | OpenAPIV3.Document | OpenAPIV3_1.Document;
+type Parameter = OpenAPIV2.Parameter | OpenAPIV3.ParameterObject | OpenAPIV3_1.ParameterObject;
 
 @Component({
   selector: 'api-method-form',
@@ -15,7 +17,7 @@ export class MethodFormComponent implements OnInit {
   @Input() method: string;
   @Input() urlTemplate: string;
   @Input() consumes: string[] = [];
-  @Input() swagger: Swagger;
+  @Input() document: Document;
 
   requestForm: FormGroup;
   values: { [id: string]: any } = {}
@@ -51,7 +53,7 @@ export class MethodFormComponent implements OnInit {
       }
       return;
     }
-    let request = this._requestBuilder.generateRequest(this.swagger, this.urlTemplate, this.method, this.requestForm.value, this.parameters);
+    let request = this._requestBuilder.generateRequest(this.document, this.urlTemplate, this.method, this.requestForm.value, this.parameters);
     this._dynamicRequestDispatcher.dispatch(request);
   }
 }

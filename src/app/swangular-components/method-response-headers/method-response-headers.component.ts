@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Header } from "swagger-schema-ts";
+import { OpenAPIV2, OpenAPIV3, OpenAPIV3_1 } from "openapi-types";
+type Header = OpenAPIV2.HeaderObject | OpenAPIV3.HeaderObject | OpenAPIV3_1.HeaderObject;
 
 @Component({
   selector: 'api-method-response-headers',

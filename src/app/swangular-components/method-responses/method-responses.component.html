@@ -15,7 +15,7 @@
         [class.danger]="(+pair.key) >= 500">
       <td>{{pair.key}}</td>
       <td>{{pair.value.description}}
-      <td><api-model [schema]="pair.value.schema" [swagger]="swagger"></api-model></td>
+      <td><api-model [schema]="pair.value.schema" [document]="document"></api-model></td>
       <td>&nbsp;</td>
     </tr>
   </tbody>

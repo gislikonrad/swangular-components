@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy, Input, OnChanges, SimpleChanges } from '@angular/core';
-import { SecuritySchemeType, SecurityScheme, Swagger } from "swagger-schema-ts";
-import { SwaggerService } from "../services/swagger.service";
+import { OpenAPIV2, OpenAPIV3, OpenAPIV3_1 } from "openapi-types";
+import { OpenApiVersion, DocumentService } from "../services/document.service";
 import { OAuthService } from "../services/o-auth.service";
 
 @Component({
@@ -10,7 +10,7 @@ import { OAuthService } from "../services/o-auth.service";
 })
 export class AuthButtonComponent implements OnInit, OnDestroy {
   @Input() security: { [id: string]: string[] }[];
-  @Input() swagger: Swagger;
+  @Input() document: OpenAPIV2.Document | OpenAPIV3.Document | OpenAPIV3_1.Document;
 
   scopes: string[];
 
@@ -20,7 +20,7 @@ export class AuthButtonComponent implements OnInit, OnDestroy {
 
   constructor(
     private _authService: OAuthService,
-    private _swaggerService: SwaggerService) {
+    private _DocumentService: DocumentService) {
   }
 
   canSignIn(): boolean {
@@ -70,14 +70,14 @@ export class AuthButtonComponent implements OnInit, OnDestroy {
     return true;
   }
 
-  ngOnChanges(changes: SimpleChanges) {
-    if(changes.swagger && changes.swagger.currentValue) {
-      this.update();
-    }
-  }
+  // ngOnChanges(changes: SimpleChanges) {
+  //   if(changes.document && changes.document.currentValue) {
+  //     this.update();
+  //   }
+  // }
 
   ngOnInit() {
-    // this._sub = this._swaggerService.current.subscribe(swagger => {
+    // this._sub = this._DocumentService.current.subscribe(swagger => {
     //   this._securityDefinitions = swagger.securityDefinitions;
     //   this.update.apply(this);
     // });
@@ -88,12 +88,37 @@ export class AuthButtonComponent implements OnInit, OnDestroy {
   }
 
   private update() {
-    if(!this.security || !this.swagger.securityDefinitions) {
+    if(!this.security) {
+      return;
+    }    
+    var version = this._DocumentService.getVersion(this.document);
+    if(version == OpenApiVersion.V2) {
+      this.updateSwagger(this.document as OpenAPIV2.Document);
+    }
+    else if(version == OpenApiVersion.V3) {
+      this.updateOpenApi(this.document as OpenAPIV3.Document);
+    }
+    else if(version == OpenApiVersion.V3_1) {
+      this.updateOpenApi(this.document as OpenAPIV3_1.Document);
+    }
+  }
+
+  private updateOpenApi(swagger: OpenAPIV3.Document | OpenAPIV3_1.Document) {
+    if(!swagger.components || !swagger.components.securitySchemes) {
       return;
     }
-    for(let key in this.swagger.securityDefinitions) {
-      let definition = this.swagger.securityDefinitions[key];
-      if(definition.type != SecuritySchemeType.oauth2) {
+    
+    throw new Error('Not implemented');
+  }
+
+  private updateSwagger(swagger: OpenAPIV2.Document) {
+    if(!swagger.securityDefinitions) {
+      return;
+    }
+    
+    for(let key in swagger.securityDefinitions) {
+      let definition = swagger.securityDefinitions[key];
+      if(definition.type != 'oauth2') {
         continue;
       }
       for(let index in this.security) {
@@ -103,7 +128,8 @@ export class AuthButtonComponent implements OnInit, OnDestroy {
           continue;
         }
         this.scopes = scopes;
-        this._authorizationUrl = definition.authorizationUrl;
+        var a: any = definition;
+        this._authorizationUrl = a.authorizationUrl;
         return;
       }
     }

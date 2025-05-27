@@ -1,20 +1,22 @@
 import { Injectable } from '@angular/core';
-import { In, Parameter, Swagger } from "swagger-schema-ts";
 import { ResponseContentType, RequestMethod, Request, Headers } from "@angular/http";
-import { SwaggerService } from "./swagger.service";
+import { DocumentService } from "./document.service";
 import { OAuthService } from "./o-auth.service";
 import { ApiKeyService } from "./api-key.service";
+import { OpenAPIV2, OpenAPIV3, OpenAPIV3_1 } from "openapi-types";
+type Document = OpenAPIV2.Document | OpenAPIV3.Document | OpenAPIV3_1.Document;
+type Parameter = OpenAPIV2.Parameter | OpenAPIV3.ParameterObject | OpenAPIV3_1.ParameterObject;
 
 @Injectable()
 export class RequestBuilderService {
 
   constructor(
-    private _swaggerService: SwaggerService,
+    private _DocumentService: DocumentService,
     private _oauthService: OAuthService,
     private _apiKeyService: ApiKeyService
   ) { }
 
-  generateRequest(swagger: Swagger, url: string, method: string, parameters: any, parameterDefinitions: Parameter[]) : Request {
+  generateRequest(swagger: Document, url: string, method: string, parameters: any, parameterDefinitions: Parameter[]) : Request {
     let body: any;
     let query: string[] = [];
     url = this.createAbsoluteUrl(swagger, url);
@@ -25,13 +27,13 @@ export class RequestBuilderService {
         if(value == null || value == '') {
           continue;
         }
-        if(parameter.in == In.path){
+        if(parameter.in == 'path'){
           url = this.addParameterToUrlPath(url, parameter.name, parameters[parameter.name])
         }
-        if(parameter.in == In.query) {
+        if(parameter.in == 'query') {
           query.push(`${parameter.name}=${parameters[parameter.name]}`);
         }
-        if(parameter.in == In.body) {
+        if(parameter.in == 'body') {
           body = this.parseBody(parameters[parameter.name]);
         }
       }
@@ -86,20 +88,26 @@ export class RequestBuilderService {
     }
   }
 
-  private createAbsoluteUrl(swagger: Swagger, url: string): string {
-    let absolute = `${this.getScheme(swagger)}://${swagger.host}`;
-    if(swagger.basePath) {
-      absolute += swagger.basePath;
+  private createAbsoluteUrl(swagger: Document, url: string): string {
+    if('host' in swagger) {
+      let absolute = `${this.getScheme(swagger)}://${swagger.host}`;
+      if(swagger.basePath) {
+        absolute += swagger.basePath;
+      }
+      absolute += url;
+      return absolute;
     }
-    absolute += url;
-    return absolute;
+    throw new Error('Cannot create absolute url. Swagger document does not contain host.');
   }
 
-  private getScheme(swagger: Swagger): string {
-    if(swagger.schemes.indexOf('https') > -1) { // prefer https
-      return 'https';
+  private getScheme(swagger: Document): string {
+    if('schemes' in swagger) {
+      if(swagger.schemes.indexOf('https') > -1) { // prefer https
+        return 'https';
+      }
+      return swagger.schemes[0];
     }
-    return swagger.schemes[0];
+    throw new Error('Cannot get scheme. Swagger document does not contain schemes.');
   }
 
   private addParameterToUrlPath(url: string, name: string, value: string): string {

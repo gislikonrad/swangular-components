@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, OnChanges, SimpleChanges, ContentChild, Output, EventEmitter } from '@angular/core';
-import { SwaggerService } from "../services/swagger.service";
-import { Swagger } from 'swagger-schema-ts';
-import { SwaggerLoadedEvent } from "../swagger-loaded-event";
+import { DocumentService } from "../services/document.service";
+import { OpenAPIV2, OpenAPIV3, OpenAPIV3_1 } from "openapi-types";
+import { DocumentLoadedEvent } from "../document-loaded-event";
 
 @Component({
   selector: 'api-swagger',
@@ -12,11 +12,11 @@ export class SwaggerComponent implements OnInit, OnChanges {
   @Input() url: string;
   @Input() showHeader: boolean = true; 
 
-  @Output() swaggerLoaded = new EventEmitter<SwaggerLoadedEvent>();
+  @Output() documentLoaded = new EventEmitter<DocumentLoadedEvent>();
 
-  swagger: Swagger;
+  document: OpenAPIV2.Document | OpenAPIV3.Document | OpenAPIV3_1.Document;
 
-  constructor(private _service: SwaggerService) { 
+  constructor(private _service: DocumentService) { 
   }
 
   ngOnInit() {
@@ -24,19 +24,19 @@ export class SwaggerComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if(changes.url.previousValue !== changes.url.currentValue) {
-      let previous = this.swagger;
-      this.swagger = null;
+      let previous = this.document;
+      this.document = null;
       if(changes.url.currentValue) {
         this
           ._service
           .getSwagger(changes.url.currentValue)
-          .then(swagger => {
-            this.swaggerLoaded.emit({ currentValue: swagger, previousValue: previous });
-            this.swagger = swagger;
+          .then(document => {
+            this.documentLoaded.emit({ currentValue: document, previousValue: previous });
+            this.document = document;
           });
       }
       else {
-        this.swaggerLoaded.emit({ currentValue: null, previousValue: previous });
+        this.documentLoaded.emit({ currentValue: null, previousValue: previous });
       }
     }
   }

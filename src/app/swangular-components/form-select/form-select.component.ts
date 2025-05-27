@@ -1,7 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { IApiMethodFormComponent } from "../method-form-control/method-form-control.component";
-import { Type, Parameter } from "swagger-schema-ts";
 import { FormGroup, FormControl, ValidatorFn } from "@angular/forms";
+import { OpenAPIV2, OpenAPIV3, OpenAPIV3_1 } from "openapi-types";
+type Parameter = OpenAPIV2.Parameter | OpenAPIV3.ParameterObject | OpenAPIV3_1.ParameterObject;
 
 @Component({
   selector: 'api-form-select',
@@ -24,10 +25,13 @@ export class FormSelectComponent implements OnInit, IApiMethodFormComponent {
   }
 
   get enum(): string[] {
-    if(this.parameter.enum) {
-      return this.parameter.enum;
+    if ('schema' in this.parameter) {
+      throw new Error("FormSelectComponent does not support schema");
     }
-    if(this.parameter.type == Type.boolean) {
+
+    if ('enum' in this.parameter) 
+      return this.parameter.enum;
+    if ('type' in this.parameter && this.parameter.type == 'boolean') {      
       return [ 'false', 'true' ];
     }
     return [];

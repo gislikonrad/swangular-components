@@ -1,2 +1,2 @@
-<h2>{{swagger.info.title}} <small>on {{swagger.schemes | first}}://{{swagger.host + (swagger.basePath || '')}}</small></h2>
-<p>{{swagger.info.description}}</p>
+<h2>{{getTitle(schema)}} <small>on {{getUrl()}}</small></h2>
+<p>{{getDescription()}}</p>

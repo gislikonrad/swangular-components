@@ -4,7 +4,7 @@
   "dependencies": {
     "swagger-schema-ts": "~2.0.4"
   },
-  "devDependencies": {    
+  "devDependencies": {
     "@types/lodash": "^4.14.74"
   },
   "peerDependencies": {

@@ -1,5 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Response, Swagger } from "swagger-schema-ts";
+import { OpenAPIV2, OpenAPIV3, OpenAPIV3_1 } from "openapi-types";
+type Document = OpenAPIV2.Document | OpenAPIV3.Document | OpenAPIV3_1.Document;
+type Response = OpenAPIV2.Response | OpenAPIV3.ResponseObject | OpenAPIV3_1.ResponseObject;
 
 @Component({
   selector: 'api-method-responses',
@@ -8,7 +10,7 @@ import { Response, Swagger } from "swagger-schema-ts";
 })
 export class MethodResponsesComponent implements OnInit {
   @Input() responses: { [id: string] : Response };
-  @Input() swagger: Swagger;
+  @Input() document: Document;
 
   constructor() { }
 

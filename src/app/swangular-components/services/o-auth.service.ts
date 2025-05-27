@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { ErrorService } from "./error.service";
 import { guid } from './guid';
 import { ApiKeyService } from "./api-key.service";
-import * as _ from 'lodash';
+import * as _ from 'lodash-es';
 
 @Injectable()
 export class OAuthService {    private _callbackUrl: string;

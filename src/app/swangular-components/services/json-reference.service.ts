@@ -11,7 +11,7 @@ export class JsonReferenceService {
       return null;
     }
 
-    let parts = $ref.substr(2).split('/');
+    let parts = $ref.substring(2).split('/');
     for(let i = 0; i < parts.length; i++) {
       obj = obj[parts[i]];
       if(obj === undefined) return null;

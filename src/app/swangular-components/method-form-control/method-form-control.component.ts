@@ -1,9 +1,10 @@
 import { Component, OnInit, Input, ComponentRef, ComponentFactoryResolver, ViewContainerRef, ComponentFactory, ViewChild, ElementRef, OnDestroy } from '@angular/core';
 import { FormGroup, ValidatorFn, Validators, FormControl } from "@angular/forms";
-import { Parameter, Type } from "swagger-schema-ts";
 import { FormInputComponent } from "../form-input/form-input.component";
 import { FormSelectComponent } from "../form-select/form-select.component";
 import { FormTextAreaComponent } from "../form-text-area/form-text-area.component";
+import { OpenAPIV2, OpenAPIV3, OpenAPIV3_1 } from "openapi-types";
+type Parameter = OpenAPIV2.Parameter | OpenAPIV3.ParameterObject | OpenAPIV3_1.ParameterObject;
 
 @Component({
   selector: 'api-method-form-control',
@@ -26,10 +27,10 @@ export class MethodFormControlComponent implements OnInit, OnDestroy {
   ngOnInit() {
     let component: any;
     let factory: ComponentFactory<IApiMethodFormComponent>;
-    if(this.parameter.schema) {
+    if('schema' in this.parameter) {
       factory = this._componentFactoryResolver.resolveComponentFactory(FormTextAreaComponent);
     }
-    else if(this.parameter.type == Type.string && this.parameter.enum || this.parameter.type == Type.boolean) {
+    else if('type' in this.parameter && (this.parameter.type == 'string' && this.parameter.enum || this.parameter.type == 'boolean')) {
       factory = this._componentFactoryResolver.resolveComponentFactory(FormSelectComponent);
     }
     else {
