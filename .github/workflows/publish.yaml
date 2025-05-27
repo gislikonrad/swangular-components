@@ -1,0 +1,42 @@
+name: Build and Publish with Node.js v8 via Docker and Semver Tags
+
+on:
+  push:
+    branches:
+      - master
+      - main
+
+jobs:
+  build-and-publish:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Fetch all history for accurate tag calculation
+
+      - name: Generate and push new semver tag
+        uses: SOLIDSoftworks/semver-tags@v1
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          tag-prefix: ''
+          default-version: '2.0.0'
+          incremented-value: 'patch'
+          add-minor-tag: true
+          add-major-tag: true
+
+      - name: Build and publish using Node.js v8 in Docker
+        run: |
+          docker run --rm \
+            -v "$PWD":/app \
+            -w /app \
+            -e NODE_AUTH_TOKEN=${{ secrets.NPM_TOKEN }} \
+            node:8 \
+            bash -c "
+              npm install && \
+              npm run-script buildmodule && \
+              npm version ${{ steps.semver.outputs.semantic-version }} --no-git-tag-version && \
+              npm config set //registry.npmjs.org/:_authToken=\$NODE_AUTH_TOKEN && \
+              npm publish
+            "
